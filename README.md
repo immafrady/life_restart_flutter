@@ -2,6 +2,8 @@
 
 人生重启模拟器的flutter版
 
+重写自 https://github.com/admin1949/remake
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
