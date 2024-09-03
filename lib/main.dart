@@ -9,7 +9,7 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider<ThemeStore>(create: (context) => ThemeStore())
+        ChangeNotifierProvider<ThemeStore>(create: (context) => ThemeStore()..initialize())
       ],
       child: const MyApp(),
     )

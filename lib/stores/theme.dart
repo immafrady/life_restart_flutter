@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:life_restart/constants/preference_keys.dart' as pk;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeStore extends ChangeNotifier {
+  final SharedPreferencesAsync _prefs = SharedPreferencesAsync();
+
+  initialize() async {
+    _modeIndex = await _prefs.getInt(pk.themeModeIndex) ?? 0;
+    _colorIndex = await _prefs.getInt(pk.themeColorIndex) ?? 0;
+    notifyListeners();
+  }
 
   ThemeData get lightTheme => ThemeData(
     brightness: Brightness.light,
@@ -15,17 +24,21 @@ class ThemeStore extends ChangeNotifier {
   );
 
 
+  // 颜色
   ColorLabel get currentColor => colorLabelList[_colorIndex];
   int _colorIndex = 0;
-  void toggleColor() {
+  void toggleColor() async {
     _colorIndex = (_colorIndex + 1) % colorLabelList.length;
+    _prefs.setInt(pk.themeColorIndex, _colorIndex);
     notifyListeners();
   }
 
+  // 模式
   ThemeModeLabel get currentMode => themeModelLabelList[_modeIndex];
   int _modeIndex = 0;
-  void toggleDarkMode() {
+  void toggleDarkMode() async {
     _modeIndex = (_modeIndex + 1) % themeModelLabelList.length;
+    _prefs.setInt(pk.themeModeIndex, _modeIndex);
     notifyListeners();
   }
 }
