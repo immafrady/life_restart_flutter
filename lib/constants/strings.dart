@@ -1,0 +1,1 @@
+const appName = '人生重启模拟器';
