@@ -18,7 +18,9 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text('这垃圾人生一秒也不想待了'),
+              Text('这垃圾人生一秒也不想待了',
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
               const SizedBox(height: 50),
               ElevatedButton(
                 onPressed: () {
@@ -35,20 +37,22 @@ class HomeScreen extends StatelessWidget {
           return Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              FloatingActionButton.extended(
+                onPressed: () {
+                  themeStore.toggleDarkMode();
+                },
+                tooltip: '切换主题',
+                icon: Icon(themeStore.currentMode.icon),
+                label: Text(themeStore.currentMode.label),
+
+              ),
+              const SizedBox(width: 10),
               FloatingActionButton(
                 onPressed: () {
                   themeStore.toggleColor();
                 },
                 tooltip: '切换颜色',
                 child: Text(themeStore.currentColor.label),
-              ),
-              const SizedBox(width: 10),
-              FloatingActionButton(
-                onPressed: () {
-                  themeStore.toggleDarkMode();
-                },
-                tooltip: themeStore.currentMode.label,
-                child: Icon(themeStore.currentMode.icon),
               ),
             ],
           );
