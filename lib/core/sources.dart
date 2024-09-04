@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 
-typedef Data = Map<String, dynamic>;
+import 'types.dart';
 
 class Sources {
   Sources._();
@@ -14,27 +14,25 @@ class Sources {
     return _instance;
   }
 
-  Map<FileType, Data> data = {
+  Map<FileType, JSONMap> data = {
     FileType.ages: {},
     FileType.events: {},
     FileType.talents: {},
   };
 
-  Data ages = {};
-  Data events = {};
-  Data talents = {};
   bool isLoaded = false;
 
-  Future<Data> _loadJsonFromAssets(String fileName) async {
+  Future<JSONMap> _loadJsonFromAssets(String fileName) async {
     String jsonString =
         await rootBundle.loadString('assets/data/$fileName.json');
     return jsonDecode(jsonString);
   }
 
-  initialize() async {
+  Future<void> load() async {
     for (var v in FileType.values) {
       data[v] = await _loadJsonFromAssets(v.keyPath);
     }
+    isLoaded = true;
   }
 }
 

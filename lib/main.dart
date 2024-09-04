@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:life_restart/constants/strings.dart' as strings;
+import 'package:life_restart/core/index.dart';
 import 'package:life_restart/screens/home_screen.dart';
 import 'package:life_restart/stores/theme.dart';
 import 'package:provider/provider.dart';
 
-
 void main() {
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider<ThemeStore>(create: (context) => ThemeStore()..initialize())
-      ],
-      child: const MyApp(),
-    )
-  );
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider<ThemeStore>(
+          create: (context) => ThemeStore()..initialize()),
+      ChangeNotifierProvider<CoreDelegate>(
+          create: (context) => CoreDelegate()..initialize()),
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -24,7 +25,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ThemeStore>(
       builder: (context, themeStore, child) {
-        print(themeStore.currentMode.mode);
         return MaterialApp(
           title: strings.appName,
           theme: themeStore.lightTheme,

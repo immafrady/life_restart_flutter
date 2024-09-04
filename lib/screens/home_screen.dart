@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:life_restart/constants/strings.dart' as strings;
+import 'package:life_restart/core/index.dart';
 import 'package:life_restart/stores/theme.dart';
 import 'package:life_restart/widgets/my_app_bar.dart';
 import 'package:provider/provider.dart';
-
-
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -12,28 +10,25 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MyAppBar(),
-      body: SafeArea(
-        child: Center(
+        appBar: const MyAppBar(),
+        body: SafeArea(
+            child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('这垃圾人生一秒也不想待了',
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-              const SizedBox(height: 50),
-              ElevatedButton(
-                onPressed: () {
-
-                },
-                child: const Text('立即重开')
-              )
-            ],
+            children: Provider.of<CoreDelegate>(context).isReady
+                ? [
+                    Text(
+                      '这垃圾人生一秒也不想待了',
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    ),
+                    const SizedBox(height: 50),
+                    ElevatedButton(onPressed: () {}, child: const Text('立即重开'))
+                  ]
+                : [const Text('资源加载中...')],
           ),
-        )
-      ),
-      floatingActionButton: Consumer<ThemeStore>(
-        builder: (context, themeStore, child) {
+        )),
+        floatingActionButton:
+            Consumer<ThemeStore>(builder: (context, themeStore, child) {
           return Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -44,7 +39,6 @@ class HomeScreen extends StatelessWidget {
                 tooltip: '切换主题',
                 icon: Icon(themeStore.currentMode.icon),
                 label: Text(themeStore.currentMode.label),
-
               ),
               const SizedBox(width: 10),
               FloatingActionButton(
@@ -56,9 +50,6 @@ class HomeScreen extends StatelessWidget {
               ),
             ],
           );
-        }
-      )
-    );
+        }));
   }
-
 }
