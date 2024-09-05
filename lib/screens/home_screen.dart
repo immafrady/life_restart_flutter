@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:life_restart/core/index.dart';
+import 'package:life_restart/core/core.dart';
 import 'package:life_restart/stores/theme.dart';
 import 'package:life_restart/widgets/my_app_bar.dart';
 import 'package:provider/provider.dart';

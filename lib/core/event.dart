@@ -15,7 +15,7 @@ class Event {
   final int id;
   final String event;
   String? postEvent;
-  EventEffect? effect;
+  Map<TypeKey, int>? effect;
   bool noRandom = false;
   String? include;
   String? exclude;
@@ -27,7 +27,7 @@ class Event {
   factory Event.fromJson(JSONMap json) {
     final event = Event._(
         id: json['id'], event: json['event'], noRandom: json['NoRandom'] ?? 0)
-      ..effect = json['effect'] != null ? EventEffect.fromJson(json) : null
+      ..effect = Event._parseEffect(json['effect'])
       ..postEvent = json['postEvent'] ?? ''
       ..include = json['include'] ?? ''
       ..exclude = json['exclude'] ?? '';
@@ -42,28 +42,24 @@ class Event {
 
     return event;
   }
-}
 
-// 事件效果
-class EventEffect {
-  int age = 0;
-  int charm = 0;
-  int intel = 0;
-  int strength = 0;
-  int money = 0;
-  int spirit = 0;
-  int life = 0;
-
-  EventEffect._();
-
-  factory EventEffect.fromJson(JSONMap json) {
-    return EventEffect._()
-      ..age = json['AGE'] ?? 0
-      ..charm = json['CHR'] ?? 0
-      ..intel = json['INT'] ?? 0
-      ..strength = json['STR'] ?? 0
-      ..money = json['MNY'] ?? 0
-      ..spirit = json['SPR'] ?? 0
-      ..life = json['LIF'] ?? 0;
+  static EffectMap? _parseEffect(JSONMap? json) {
+    if (json == null) {
+      return null;
+    } else {
+      final EffectMap map = {};
+      for (var MapEntry(:key, :value) in json.entries) {
+        final typeKey = TypeKey.parse(key);
+        assert(typeKey != null);
+        if (typeKey != null) {
+          map[typeKey] = value ?? 0;
+        } else {
+          print('[parse]invalid key: $typeKey');
+        }
+      }
+      return map;
+    }
   }
 }
+
+typedef EffectMap = Map<TypeKey, int>;
