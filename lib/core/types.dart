@@ -2,28 +2,32 @@
 typedef JSONMap = Map<String, dynamic>;
 
 // 属性枚举
-enum TypeKey {
-  age(key: 'AGE', desc: '年龄'),
-  charm(key: 'CHR', desc: '颜值'),
-  intelligence(key: 'INT', desc: '智力'),
-  strength(key: 'STR', desc: '体质'),
-  money(key: 'MNY', desc: '家境'),
-  spirit(key: 'SPR', desc: '快乐'),
-  life(key: 'LIF', desc: '生命'),
-  talent(key: 'TLT', desc: '天赋'),
-  event(key: 'EVT', desc: '事件'),
-  random(key: 'RDM', desc: '更改随机属性'),
+enum PropertyKey {
+  age(key: 'AGE', desc: '年龄', type: PropertyType.attribute),
+  charm(key: 'CHR', desc: '颜值', type: PropertyType.attribute),
+  intelligence(key: 'INT', desc: '智力', type: PropertyType.attribute),
+  strength(key: 'STR', desc: '体质', type: PropertyType.attribute),
+  money(key: 'MNY', desc: '家境', type: PropertyType.attribute),
+  spirit(key: 'SPR', desc: '快乐', type: PropertyType.attribute),
+  life(key: 'LIF', desc: '生命', type: PropertyType.attribute),
+  talent(key: 'TLT', desc: '天赋', type: PropertyType.relation),
+  event(key: 'EVT', desc: '事件', type: PropertyType.relation),
+  random(key: 'RDM', desc: '更改随机属性', type: PropertyType.special),
   ;
 
   final String key;
   final String desc;
+  final PropertyType type;
 
-  const TypeKey({required this.key, required this.desc});
+  const PropertyKey(
+      {required this.key, required this.desc, required this.type});
 
-  static TypeKey? parse(String key) {
-    for (var typeKey in TypeKey.values) {
+  static PropertyKey? parse(String key) {
+    for (var typeKey in PropertyKey.values) {
       if (typeKey.key == key) return typeKey;
     }
     return null;
   }
 }
+
+enum PropertyType { attribute, relation, special }

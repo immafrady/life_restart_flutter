@@ -15,7 +15,7 @@ class Event {
   final int id;
   final String event;
   String? postEvent;
-  Map<TypeKey, int>? effect;
+  Map<PropertyKey, int>? effect;
   bool noRandom = false;
   String? include;
   String? exclude;
@@ -27,7 +27,7 @@ class Event {
   factory Event.fromJson(JSONMap json) {
     final event = Event._(
         id: json['id'], event: json['event'], noRandom: json['NoRandom'] ?? 0)
-      ..effect = Event._parseEffect(json['effect'])
+      ..effect = _parseEffect(json['effect'])
       ..postEvent = json['postEvent'] ?? ''
       ..include = json['include'] ?? ''
       ..exclude = json['exclude'] ?? '';
@@ -49,12 +49,12 @@ class Event {
     } else {
       final EffectMap map = {};
       for (var MapEntry(:key, :value) in json.entries) {
-        final typeKey = TypeKey.parse(key);
-        assert(typeKey != null);
-        if (typeKey != null) {
-          map[typeKey] = value ?? 0;
+        final propertyKey = PropertyKey.parse(key);
+        assert(propertyKey != null);
+        if (propertyKey != null) {
+          map[propertyKey] = value ?? 0;
         } else {
-          print('[parse]invalid key: $typeKey');
+          print('[parse]invalid key: $propertyKey');
         }
       }
       return map;
@@ -62,4 +62,4 @@ class Event {
   }
 }
 
-typedef EffectMap = Map<TypeKey, int>;
+typedef EffectMap = Map<PropertyKey, int>;
