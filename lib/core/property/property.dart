@@ -8,10 +8,10 @@ import 'record.dart';
 class PropertyController {
   final Person person = Person();
   final PlayRecord record = PlayRecord();
-  late final AgeController ageController;
+  late final AgeData ageData;
 
   PropertyController(JSONMap ages) {
-    ageController = AgeController(ages);
+    ageData = AgeData(ages);
   }
 
   restart() {
