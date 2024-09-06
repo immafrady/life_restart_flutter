@@ -11,7 +11,7 @@ class PropertyController {
   late final AgeData ageData;
 
   PropertyController(JSONMap ages) {
-    ageData = AgeData(ages);
+    ageData = AgeData.fromJson(ages);
   }
 
   restart() {

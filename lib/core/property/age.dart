@@ -4,10 +4,14 @@ import 'package:life_restart/core/types.dart';
 class AgeData {
   final Map<int, Age> _ageTree = {};
 
-  AgeData(JSONMap ages) {
-    for (var MapEntry(:key, :value) in ages.entries) {
-      _ageTree[int.parse(key)] = Age(value['age'], value['event']);
+  AgeData._();
+
+  factory AgeData.fromJson(JSONMap json) {
+    final ageData = AgeData._();
+    for (var MapEntry(:key, :value) in json.entries) {
+      ageData._ageTree[int.parse(key)] = Age(value['age'], value['event']);
     }
+    return ageData;
   }
 
   // 获取年龄相关数据
