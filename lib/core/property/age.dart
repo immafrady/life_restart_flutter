@@ -25,7 +25,8 @@ class Age {
   final List<(int, double)> event = [];
   final List<int> talent = []; // todo 这个好像是后面拼接上去的？
 
-  Age(String age, List<Object> rawEvent) : age = int.parse(age) {
+  Age(dynamic age, List<dynamic> rawEvent)
+      : age = (age is int) ? age : int.parse(age) {
     for (var e in rawEvent) {
       if (e is int) {
         event.add((e, 1.0));
