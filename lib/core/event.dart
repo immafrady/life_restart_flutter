@@ -2,11 +2,11 @@ import 'types.dart';
 
 // 事件控制
 class EventController {
-  final Map<String, Event> eventTree = {};
+  final Map<int, Event> eventTree = {};
 
   EventController(JSONMap events) {
     for (var MapEntry(:key, :value) in events.entries) {
-      eventTree[key] = Event.fromJson(value);
+      eventTree[int.parse(key)] = Event.fromJson(value);
     }
   }
 }
