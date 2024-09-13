@@ -2,21 +2,21 @@ import 'package:life_restart/core/types.dart';
 
 // 年龄控制
 class AgeData {
-  final Map<int, Age> _ageTree = {};
+  final Map<int, Age> _tree = {};
 
   AgeData._();
 
   factory AgeData.fromJson(JSONMap json) {
     final ageData = AgeData._();
     for (var MapEntry(:key, :value) in json.entries) {
-      ageData._ageTree[int.parse(key)] = Age(value['age'], value['event']);
+      ageData._tree[int.parse(key)] = Age(value['age'], value['event']);
     }
     return ageData;
   }
 
   // 获取年龄相关数据
   Age get(int age) {
-    return _ageTree[age]!;
+    return _tree[age]!;
   }
 }
 
