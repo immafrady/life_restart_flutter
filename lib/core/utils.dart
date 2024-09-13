@@ -39,3 +39,15 @@ Conditions parseConditions(String condition) {
   catchString(len);
   return conditions;
 }
+
+// 从条件中提取最多触发数
+int extractMaxTrigger(String condition) {
+  final RegExp regAgeCondition = RegExp(r'AGE\?\[([0-9\,]+)\]');
+  final matchObj = regAgeCondition.firstMatch(condition);
+
+  if (matchObj == null) {
+    return 1;
+  }
+  final ageList = matchObj.group(1)!.split(',');
+  return ageList.length;
+}

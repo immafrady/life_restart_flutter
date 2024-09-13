@@ -1,3 +1,4 @@
+import 'effect.dart';
 import 'types.dart';
 
 // 事件控制
@@ -14,20 +15,21 @@ class EventController {
 class Event {
   final int id;
   final String event;
-  String? postEvent;
-  Map<PropertyKey, int>? effect;
-  bool noRandom = false;
-  String? include;
-  String? exclude;
+  late final String postEvent;
+  late EffectMap effect;
+  late final bool noRandom;
+  late final String include;
+  late final String exclude;
   List<(String, int)>? branch;
 
   Event._({required this.id, required this.event, int noRandom = 0})
       : noRandom = noRandom == 0 ? false : true;
 
   factory Event.fromJson(JSONMap json) {
+    final map = EffectMap()..parse(json['effect']);
     final event = Event._(
         id: json['id'], event: json['event'], noRandom: json['NoRandom'] ?? 0)
-      ..effect = _parseEffect(json['effect'])
+      ..effect = map // todo 这一块不确定
       ..postEvent = json['postEvent'] ?? ''
       ..include = json['include'] ?? ''
       ..exclude = json['exclude'] ?? '';
@@ -42,24 +44,4 @@ class Event {
 
     return event;
   }
-
-  static EffectMap? _parseEffect(JSONMap? json) {
-    if (json == null) {
-      return null;
-    } else {
-      final EffectMap map = {};
-      for (var MapEntry(:key, :value) in json.entries) {
-        final propertyKey = PropertyKey.parse(key);
-        assert(propertyKey != null);
-        if (propertyKey != null) {
-          map[propertyKey] = value ?? 0;
-        } else {
-          print('[parse]invalid key: $propertyKey');
-        }
-      }
-      return map;
-    }
-  }
 }
-
-typedef EffectMap = Map<PropertyKey, int>;

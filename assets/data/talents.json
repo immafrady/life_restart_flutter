@@ -980,7 +980,7 @@
     "id": "1105",
     "name": "蓝色胶囊",
     "description": "你20、30岁时无事发生",
-    "condition": "AGE?[20]",
+    "condition": "AGE?[20,30]",
     "grade": 1
   },
   "1106": {
