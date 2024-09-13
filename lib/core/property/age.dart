@@ -1,13 +1,13 @@
 import 'package:life_restart/core/types.dart';
 
 // 年龄控制
-class AgeData {
+class AgeDictionary {
   final Map<int, Age> _tree = {};
 
-  AgeData._();
+  AgeDictionary._();
 
-  factory AgeData.fromJson(JSONMap json) {
-    final ageData = AgeData._();
+  factory AgeDictionary.fromJson(JSONMap json) {
+    final ageData = AgeDictionary._();
     for (var MapEntry(:key, :value) in json.entries) {
       ageData._tree[int.parse(key)] = Age(value['age'], value['event']);
     }

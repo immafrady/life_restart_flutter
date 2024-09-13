@@ -8,10 +8,12 @@ import 'record.dart';
 class PropertyController {
   final Person person = Person();
   final PlayRecord record = PlayRecord();
-  late final AgeData ageData;
+  late final AgeDictionary ageData;
 
-  PropertyController(JSONMap ages) {
-    ageData = AgeData.fromJson(ages);
+  PropertyController._();
+
+  factory PropertyController.fromJson(JSONMap ages) {
+    return PropertyController._()..ageData = AgeDictionary.fromJson(ages);
   }
 
   restart() {

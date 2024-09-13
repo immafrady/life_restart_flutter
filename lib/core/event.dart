@@ -2,13 +2,21 @@ import 'effect.dart';
 import 'types.dart';
 
 // 事件控制
-class EventController {
-  final Map<int, Event> tree = {};
+class EventDictionary {
+  final Map<int, Event> _tree = {};
 
-  EventController(JSONMap events) {
+  EventDictionary._();
+
+  factory EventDictionary.fromJson(JSONMap events) {
+    final controller = EventDictionary._();
     for (var MapEntry(:key, :value) in events.entries) {
-      tree[int.parse(key)] = Event.fromJson(value);
+      controller._tree[int.parse(key)] = Event.fromJson(value);
     }
+    return controller;
+  }
+
+  Event get(int id) {
+    return _tree[id]!;
   }
 }
 

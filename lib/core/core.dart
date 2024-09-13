@@ -9,7 +9,7 @@ class CoreDelegate extends ChangeNotifier {
   bool isReady = false;
   final Sources _sources = Sources();
 
-  late final EventController eventController; // 事件
+  late final EventDictionary eventController; // 事件
   late final PropertyController propertyController; // 属性？
 
   // 加载
@@ -18,9 +18,9 @@ class CoreDelegate extends ChangeNotifier {
       await _sources.load();
     }
     eventController =
-        EventController(_sources.data[FileType.events] as JSONMap);
+        EventDictionary.fromJson(_sources.data[FileType.events] as JSONMap);
     propertyController =
-        PropertyController(_sources.data[FileType.ages] as JSONMap);
+        PropertyController.fromJson(_sources.data[FileType.ages] as JSONMap);
     isReady = true;
     notifyListeners();
   }
