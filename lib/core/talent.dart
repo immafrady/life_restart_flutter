@@ -4,7 +4,23 @@ import 'package:life_restart/utils/parsers.dart';
 
 import 'effect.dart';
 
-class TalentController {}
+class TalentDictionary {
+  final Map<int, Talent> _tree = {};
+
+  TalentDictionary._();
+
+  factory TalentDictionary.fromJson(JSONMap talents) {
+    final controller = TalentDictionary._();
+    for (var MapEntry(:key, :value) in talents.entries) {
+      controller._tree[int.parse(key)] = Talent.fromJson(value);
+    }
+    return controller;
+  }
+
+  Talent get(int id) {
+    return _tree[id]!;
+  }
+}
 
 class Talent {
   final int id;
