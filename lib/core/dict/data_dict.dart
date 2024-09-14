@@ -9,7 +9,13 @@ class DataDict<T> {
     }
   }
 
+  // 通过id取值
   T get(int id) {
     return _tree[id]!;
+  }
+
+  // 获取全部值
+  List<T> getAll() {
+    return _tree.values.toList();
   }
 }
