@@ -58,7 +58,8 @@ class Replacement {
     for (var val in list) {
       var str = val.toString();
       final value = str.split('*');
-      map[convertToInt(value[0])] = convertToInt(value[1], defaultValue: 1);
+      map[convertToInt(value[0])] =
+          value.length > 1 ? convertToInt(value[1], defaultValue: 1) : 1;
     }
   }
 }
