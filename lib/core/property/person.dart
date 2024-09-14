@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:life_restart/core/types.dart';
 
-// 人
+// 人(记录属性变动)
 class Person {
   Person() {
     reset();
@@ -33,9 +33,9 @@ class Person {
       value.forEach((v) => change(key, v));
     } else if (value is int) {
       if (key.type == PropertyType.attribute) {
-        setAttribute(key, value);
+        _setAttribute(key, value);
       } else if (key.type == PropertyType.relation) {
-        setRelations(key, value);
+        _setRelations(key, value);
       }
     } else {
       print('啥玩意，乱传 $key, $value');
@@ -43,15 +43,15 @@ class Person {
   }
 
   // 设置属性
-  setAttribute(PropertyKey key, int value) {
+  _setAttribute(PropertyKey key, int value) {
     if (key == PropertyKey.random) {
-      key = randomAttribute();
+      key = _randomAttribute();
     }
     attributes[key] = (attributes[key] ?? 0) + value;
   }
 
   // 设置关联
-  setRelations(PropertyKey key, int value) {
+  _setRelations(PropertyKey key, int value) {
     final List<int> list = relations[key]!;
     list.remove(value);
     list.add(value);
@@ -64,7 +64,7 @@ class Person {
   List<int> getRelation(PropertyKey key) =>
       key.type == PropertyType.relation ? relations[key]! : [];
 
-  PropertyKey randomAttribute() {
+  PropertyKey _randomAttribute() {
     final list = attributes.keys.toList();
     return list[Random().nextInt(list.length)];
   }

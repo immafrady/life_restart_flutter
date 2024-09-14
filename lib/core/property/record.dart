@@ -1,6 +1,7 @@
 import 'package:life_restart/core/property/person.dart';
 import 'package:life_restart/core/types.dart';
 
+// 记录每一岁
 class PlayRecord {
   List<Map<PropertyKey, int>> _list = [];
 

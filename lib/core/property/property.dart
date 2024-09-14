@@ -1,3 +1,4 @@
+import '../types.dart';
 import 'person.dart';
 import 'record.dart';
 
@@ -8,9 +9,26 @@ class PropertyController {
 
   PropertyController();
 
-  restart() {
+  restart({Map<PropertyKey, int> initValue = const {}}) {
     person.reset();
     record.reset();
-    // 还有一个，不知道有啥用 this.effect(person);
+    doEffect(initValue);
+  }
+
+  // 是否结束
+  bool isEnd() {
+    return person.attributes[PropertyKey.life]! < 1;
+  }
+
+  // 能力变动
+  void doEffect(Map<PropertyKey, int> map) {
+    for (var MapEntry(:key, :value) in map.entries) {
+      person.change(key, value);
+    }
+  }
+
+  // 添加记录
+  void setRecord() {
+    record.add(person);
   }
 }
