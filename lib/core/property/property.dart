@@ -1,6 +1,3 @@
-import 'package:life_restart/core/property/age.dart';
-import 'package:life_restart/core/types.dart';
-
 import 'person.dart';
 import 'record.dart';
 
@@ -8,13 +5,8 @@ import 'record.dart';
 class PropertyController {
   final Person person = Person();
   final PlayRecord record = PlayRecord();
-  late final AgeDictionary ageData;
 
-  PropertyController._();
-
-  factory PropertyController.fromJson(JSONMap ages) {
-    return PropertyController._()..ageData = AgeDictionary.fromJson(ages);
-  }
+  PropertyController();
 
   restart() {
     person.reset();

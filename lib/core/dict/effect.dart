@@ -1,4 +1,4 @@
-import 'types.dart';
+import '../types.dart';
 
 typedef EffectMap = Map<PropertyKey, int>;
 
