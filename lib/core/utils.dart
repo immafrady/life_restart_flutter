@@ -60,14 +60,14 @@ int extractMaxTrigger(String condition) {
 }
 
 // 判断数值和条件的结果
-bool checkProperty(Person person, String condition) {
+bool checkProp(Person person, String condition) {
   RegExpMatch match = RegExp(r"[><!?=]/").firstMatch(condition)!; // 强制有！
   final propertyKey = PropertyKey.parse(condition.substring(0, match.start))!;
   int symbolEnd = condition[match.start + 1] == '=' ? 2 : 1;
   final symbol = condition.substring(match.start, symbolEnd);
   final d = condition.substring(symbolEnd, condition.length);
 
-  final propData = switch(propertyKey.type) {
+  final propData = switch (propertyKey.type) {
     PropertyType.attribute => person.getAttribute(propertyKey),
     PropertyType.relation => person.getRelation(propertyKey),
     _ => 0
@@ -77,14 +77,14 @@ bool checkProperty(Person person, String condition) {
     final List<int> arrData = jsonDecode(d);
     if (propData is List<int>) {
       // 数组
-      return switch(symbol) {
+      return switch (symbol) {
         '?' => propData.any((i) => arrData.contains(i)),
         '!' => !propData.any((i) => arrData.contains(i)),
         _ => false
       };
     } else if (propData is int) {
       // 数字
-      return switch(symbol) {
+      return switch (symbol) {
         '?' => arrData.contains(propData),
         '!' => !arrData.contains(propData),
         _ => false
@@ -94,7 +94,7 @@ bool checkProperty(Person person, String condition) {
     final intData = convertToInt(d);
     if (propData is int) {
       // 数字
-      return switch(symbol) {
+      return switch (symbol) {
         '>' => propData > intData,
         '<' => propData < intData,
         '>=' => propData >= intData,
@@ -104,7 +104,7 @@ bool checkProperty(Person person, String condition) {
         _ => false
       };
     } else if (propData is List<int>) {
-      return switch(symbol) {
+      return switch (symbol) {
         '=' => propData.contains(intData),
         '!=' => !propData.contains(intData),
         _ => false
@@ -113,4 +113,45 @@ bool checkProperty(Person person, String condition) {
   }
 
   return false;
+}
+
+// 校验解析后的条件
+bool checkParsedConditions(Person person, dynamic conditions) {
+  if (conditions is String) {
+    return checkProp(person, conditions);
+  }
+  if (conditions is List<dynamic>) {
+    if (conditions.isEmpty) {
+      // 0
+      return true;
+    } else if (conditions.length == 1) {
+      // 1
+      return checkParsedConditions(person, conditions[0]);
+    } else {
+      // many
+      var ret = checkParsedConditions(person, conditions[0]);
+      for (var i = 1; i < conditions.length; i += 2) {
+        switch (conditions[i]) {
+          case '&':
+            if (ret) {
+              ret = checkParsedConditions(person, conditions[i + 1]);
+            }
+          case '|':
+            if (ret) {
+              return true;
+            }
+            // todo 潜在out of range问题
+            ret = checkParsedConditions(person, conditions[i + 1]);
+          default:
+            return false;
+        }
+      }
+    }
+  }
+  return false;
+}
+
+bool checkCondition(Person person, String condition) {
+  Conditions conditions = parseConditions(condition);
+  return checkParsedConditions(person, conditions);
 }

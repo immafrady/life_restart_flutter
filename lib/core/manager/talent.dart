@@ -1,5 +1,8 @@
 import 'dart:math';
 
+import 'package:life_restart/core/property/person.dart';
+import 'package:life_restart/core/utils.dart';
+
 import '../dict/data_dict.dart';
 import '../dict/talent.dart';
 
@@ -42,5 +45,31 @@ class TalentManager {
       list.add(currentGradeList.removeAt(index));
     }
     return list;
+  }
+
+  // 找出互斥的id
+  int? exclusive(List<int> talentIds, int exclusiveId) {
+    final targetTalent = talents.get(exclusiveId);
+    if (targetTalent.exclusive.isEmpty) {
+      return null;
+    }
+
+    for (var talentId in talentIds) {
+      for (var targetId in targetTalent.exclusive) {
+        if (targetId == talentId) {
+          return talentId;
+        }
+      }
+    }
+    return null;
+  }
+
+  Talent? doTalent(int talentId, Person person) {
+    final talent = talents.get(talentId);
+    if (talent.condition.isNotEmpty &&
+        !checkCondition(person, talent.condition)) {
+      return null;
+    }
+    return talent;
   }
 }
