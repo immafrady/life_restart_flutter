@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:life_restart/utils/parsers.dart';
 
-import './property/person.dart';
-import 'types.dart';
+import '../property/person.dart';
+import '../types.dart';
 
 typedef Conditions = List<Object>;
 

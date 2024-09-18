@@ -1,7 +1,7 @@
 import 'package:life_restart/utils/parsers.dart';
 
+import '../functions/condition.dart';
 import '../types.dart';
-import '../utils.dart';
 import 'effect.dart';
 
 class Talent {

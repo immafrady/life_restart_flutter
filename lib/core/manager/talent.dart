@@ -1,10 +1,9 @@
 import 'dart:math';
 
-import 'package:life_restart/core/property/person.dart';
-import 'package:life_restart/core/utils.dart';
-
 import '../dict/data_dict.dart';
 import '../dict/talent.dart';
+import '../functions/condition.dart';
+import '../property/person.dart';
 
 class TalentManager {
   DataDict<Talent> talents;
