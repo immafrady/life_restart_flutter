@@ -31,3 +31,8 @@ enum PropertyKey {
 }
 
 enum PropertyType { attribute, relation, special }
+
+/// ----分割线----
+
+// 权重record （key，对应的权重）
+typedef RecordWeight = ({int key, double weight});

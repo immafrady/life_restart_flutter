@@ -3,7 +3,9 @@ import 'dart:math';
 import '../dict/data_dict.dart';
 import '../dict/talent.dart';
 import '../functions/condition.dart';
+import '../functions/util.dart';
 import '../property/person.dart';
+import '../types.dart';
 
 class TalentManager {
   DataDict<Talent> talents;
@@ -70,5 +72,57 @@ class TalentManager {
       return null;
     }
     return talent;
+  }
+
+  Map<int, int> replace(List<int> talentIds) {
+    // 返回值是：（id, 权重)
+    List<RecordWeight>? getReplaceList(int tId, List<int> tIds) {
+      final talent = talents.get(tId);
+      if (talent.replacement.isEmpty) {
+        return null;
+      }
+
+      final List<RecordWeight> list = [];
+      if (talent.replacement.grade.isNotEmpty) {
+        for (var targetTalent in talents.getAll()) {
+          if (!talent.replacement.grade.containsKey(targetTalent.grade)) {
+            continue;
+          }
+          if (exclusive(tIds, targetTalent.id) != null) continue;
+          list.add((
+            key: targetTalent.id,
+            weight: talent.replacement.grade[targetTalent.grade]!
+          ));
+        }
+      }
+
+      if (talent.replacement.talent.isNotEmpty) {
+        for (var id in talent.replacement.talent.keys) {
+          if (exclusive(tIds, id) != null) continue;
+          list.add((key: id, weight: talent.replacement.talent[id]!));
+        }
+      }
+
+      return list;
+    }
+
+    // 最终得出要替换的id
+    int innerReplace(int tId, List<int> tIds) {
+      final replaceList = getReplaceList(tId, tIds);
+      if (replaceList == null) return tId;
+      final id = weightRandom(replaceList);
+      return innerReplace(id, List.from(tIds)..add(id));
+    }
+
+    final List<int> newTalentIds = List.from(talentIds);
+    final Map<int, int> result = {};
+    for (var talentId in talentIds) {
+      final replaceId = innerReplace(talentId, newTalentIds);
+      if (replaceId != talentId) {
+        result[talentId] = replaceId;
+        newTalentIds.add(replaceId);
+      }
+    }
+    return result;
   }
 }

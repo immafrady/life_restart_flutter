@@ -39,27 +39,25 @@ class Talent {
 }
 
 class Replacement {
-  late final Map<int, int> grade = {};
-  late final Map<int, int> talent = {};
+  late final Map<int, double> grade = {};
+  late final Map<int, double> talent = {};
 
-  Replacement._();
+  bool get isEmpty => grade.isEmpty && talent.isEmpty;
 
-  factory Replacement.fromJson(JSONMap? json) {
-    final replacement = Replacement._();
+  Replacement.fromJson(JSONMap? json) {
     if (json != null) {
-      replacement._setter(replacement.grade, json['grade'] ?? []);
-      replacement._setter(replacement.talent, json['talent'] ?? []);
+      _setter(grade, json['grade'] ?? []);
+      _setter(talent, json['talent'] ?? []);
     }
-    return replacement;
   }
 
-  void _setter(Map<int, int> map, List<dynamic> list) {
+  void _setter(Map<int, double> map, List<dynamic> list) {
     map.clear();
     for (var val in list) {
       var str = val.toString();
       final value = str.split('*');
       map[convertToInt(value[0])] =
-          value.length > 1 ? convertToInt(value[1], defaultValue: 1) : 1;
+          value.length > 1 ? convertToDouble(value[1], defaultValue: 1) : 1.0;
     }
   }
 }
