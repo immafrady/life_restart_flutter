@@ -1,7 +1,7 @@
-import 'package:life_restart/core/types.dart';
-import 'package:life_restart/core/utils.dart';
 import 'package:life_restart/utils/parsers.dart';
 
+import '../types.dart';
+import '../utils.dart';
 import 'effect.dart';
 
 class Talent {
@@ -11,7 +11,7 @@ class Talent {
   late final int grade;
   late final int maxTrigger; // 从condition中提取
   late final List<int> exclusive; // 数据源中有字符串，需要清洗一下
-  late final int status; // 比较少有
+  late final int status; // 比较少有 （影响初始分配的总能力值）
   late final String condition;
   late EffectMap effect;
   late final Replacement replacement;
