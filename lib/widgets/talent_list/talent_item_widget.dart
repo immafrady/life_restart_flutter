@@ -3,15 +3,18 @@ import 'package:flutter/material.dart';
 typedef ColorRecord = ({Color normal, Color active});
 
 class TalentItemWidget extends StatelessWidget {
-  const TalentItemWidget(
-      {super.key,
-      required this.name,
-      required this.description,
-      required this.grade});
+  const TalentItemWidget({
+    super.key,
+    required this.name,
+    required this.description,
+    required this.grade,
+    required this.active,
+  });
 
   final String name;
   final String description;
   final int grade;
+  final bool active;
 
   ColorRecord get _lightBackground => switch (grade) {
         3 => (normal: const Color(0xffffa07a), active: const Color(0xffff7f4d)),
@@ -39,12 +42,12 @@ class TalentItemWidget extends StatelessWidget {
     return Container(
       height: 50,
       decoration: BoxDecoration(
-          color: color.normal,
+          color: active ? color.active : color.normal,
           border: Border.all(color: theme.colorScheme.primary, width: 1)),
       child: Center(
           child: Text(
         '$name ($description)',
-        style: TextStyle(color: textColor),
+        style: TextStyle(color: active ? textActiveColor : textColor),
       )),
     );
   }

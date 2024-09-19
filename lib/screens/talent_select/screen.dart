@@ -29,6 +29,17 @@ class _TalentSelectState extends State<TalentSelectScreen> {
                       .sortedTalents,
                   max: 3),
             ),
+            Container(
+              padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(onPressed: () {}, child: Text("选择超级人生")),
+                  const SizedBox(width: 20),
+                  ElevatedButton(onPressed: () {}, child: Text("选择三个")),
+                ],
+              ),
+            )
           ],
         ),
       ),

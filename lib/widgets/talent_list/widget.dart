@@ -30,10 +30,23 @@ class _TalentListState extends State<TalentListWidget> {
         itemCount: widget.talentPool.length,
         itemBuilder: (BuildContext context, int index) {
           final talent = widget.talentPool[index];
-          return TalentItemWidget(
+          return GestureDetector(
+            onTap: () {
+              setState(() {
+                if (_selectedIds.contains(talent.id)) {
+                  _selectedIds.remove(talent.id);
+                } else {
+                  _selectedIds.add(talent.id);
+                }
+              });
+            },
+            child: TalentItemWidget(
               name: talent.name,
               description: talent.description,
-              grade: talent.grade);
+              grade: talent.grade,
+              active: _selectedIds.contains(talent.id),
+            ),
+          );
         });
   }
 }
