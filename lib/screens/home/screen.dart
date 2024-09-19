@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:life_restart/core/core.dart';
+import 'package:life_restart/screens/talent_select/screen.dart';
 import 'package:life_restart/stores/theme.dart';
-import 'package:life_restart/widgets/my_app_bar.dart';
+import 'package:life_restart/widgets/my_app_bar/widget.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -22,7 +23,15 @@ class HomeScreen extends StatelessWidget {
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
                     const SizedBox(height: 50),
-                    ElevatedButton(onPressed: () {}, child: const Text('立即重开'))
+                    ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const TalentSelectScreen()));
+                        },
+                        child: const Text('立即重开'))
                   ]
                 : [const Text('资源加载中...')],
           ),
@@ -33,6 +42,7 @@ class HomeScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               FloatingActionButton.extended(
+                heroTag: "a",
                 onPressed: () {
                   themeStore.toggleDarkMode();
                 },
@@ -42,6 +52,7 @@ class HomeScreen extends StatelessWidget {
               ),
               const SizedBox(width: 10),
               FloatingActionButton(
+                heroTag: "b",
                 onPressed: () {
                   themeStore.toggleColor();
                 },
