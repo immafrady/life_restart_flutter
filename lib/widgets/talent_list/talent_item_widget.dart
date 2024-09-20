@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math' as math;
 
 typedef ColorRecord = ({Color normal, Color active});
 
@@ -104,7 +105,7 @@ class _TalentItemWidgetState extends State<TalentItemWidget> with SingleTickerPr
                   // 屏幕的宽度
                   offset: Offset(_controller.value * MediaQuery.of(context).size.width, 0),
                   child: Container(
-                    color: Colors.black.withOpacity((_controller.value - 0.5).abs() * 1),
+                    color: Colors.black.withOpacity(math.sin(math.pi * _controller.value) * 0.2),
                     width: double.infinity,
                     height: double.infinity,
                   ),
