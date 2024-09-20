@@ -3,7 +3,7 @@ import 'package:life_restart/core/dict/talent.dart';
 import 'package:life_restart/widgets/talent_list/talent_item_widget.dart';
 
 class TalentListWidget extends StatefulWidget {
-  TalentListWidget(
+  const TalentListWidget(
       {super.key,
       required this.talentPool,
       required this.max,

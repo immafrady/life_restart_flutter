@@ -47,7 +47,10 @@ class TalentItemWidget extends StatelessWidget {
       child: Center(
           child: Text(
         '$name ($description)',
-        style: TextStyle(color: active ? textActiveColor : textColor),
+        style: Theme.of(context)
+            .textTheme
+            .titleMedium
+            ?.copyWith(color: active ? textActiveColor : textColor),
       )),
     );
   }

@@ -23,15 +23,27 @@ class HomeScreen extends StatelessWidget {
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
                     const SizedBox(height: 50),
-                    ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const TalentSelectScreen()));
-                        },
-                        child: const Text('立即重开'))
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      FilledButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        TalentSelectScreen.normalMode()));
+                          },
+                          child: const Text('开启普通人生')),
+                      const SizedBox(width: 30),
+                      FilledButton.tonal(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        TalentSelectScreen.superMode()));
+                          },
+                          child: const Text('开启超级人生')),
+                    ])
                   ]
                 : [const Text('资源加载中...')],
           ),
