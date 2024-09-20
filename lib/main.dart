@@ -9,9 +9,11 @@ void main() {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider<ThemeStore>(
-          create: (context) => ThemeStore()..initialize()),
+        create: (context) => ThemeStore()..initialize(),
+      ),
       ChangeNotifierProvider<CoreDelegate>(
-          create: (context) => CoreDelegate()..initialize()),
+        create: (context) => CoreDelegate()..initialize(),
+      ),
     ],
     child: const MyApp(),
   ));

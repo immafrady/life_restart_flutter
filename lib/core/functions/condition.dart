@@ -49,7 +49,7 @@ Conditions parseConditions(String condition) {
 
 // 从条件中提取最多触发数
 int extractMaxTrigger(String condition) {
-  final RegExp regAgeCondition = RegExp(r'AGE\?\[([0-9\,]+)\]');
+  final RegExp regAgeCondition = RegExp(r'AGE\?\[([0-9,]+)\]');
   final matchObj = regAgeCondition.firstMatch(condition);
 
   if (matchObj == null) {
@@ -77,18 +77,10 @@ bool checkProp(Person person, String condition) {
     final List<int> arrData = jsonDecode(d);
     if (propData is List<int>) {
       // 数组
-      return switch (symbol) {
-        '?' => propData.any((i) => arrData.contains(i)),
-        '!' => !propData.any((i) => arrData.contains(i)),
-        _ => false
-      };
+      return switch (symbol) { '?' => propData.any((i) => arrData.contains(i)), '!' => !propData.any((i) => arrData.contains(i)), _ => false };
     } else if (propData is int) {
       // 数字
-      return switch (symbol) {
-        '?' => arrData.contains(propData),
-        '!' => !arrData.contains(propData),
-        _ => false
-      };
+      return switch (symbol) { '?' => arrData.contains(propData), '!' => !arrData.contains(propData), _ => false };
     }
   } else {
     final intData = convertToInt(d);
@@ -104,11 +96,7 @@ bool checkProp(Person person, String condition) {
         _ => false
       };
     } else if (propData is List<int>) {
-      return switch (symbol) {
-        '=' => propData.contains(intData),
-        '!=' => !propData.contains(intData),
-        _ => false
-      };
+      return switch (symbol) { '=' => propData.contains(intData), '!=' => !propData.contains(intData), _ => false };
     }
   }
 

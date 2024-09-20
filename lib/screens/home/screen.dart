@@ -11,9 +11,9 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const MyAppBar(),
-        body: SafeArea(
-            child: Center(
+      appBar: const MyAppBar(),
+      body: SafeArea(
+        child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: Provider.of<CoreDelegate>(context).isReady
@@ -25,54 +25,56 @@ class HomeScreen extends StatelessWidget {
                     const SizedBox(height: 50),
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                       FilledButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        TalentSelectScreen.normalMode()));
-                          },
-                          child: const Text('开启普通人生')),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => TalentSelectScreen.normalMode()),
+                          );
+                        },
+                        child: const Text('开启普通人生'),
+                      ),
                       const SizedBox(width: 30),
                       FilledButton.tonal(
                           onPressed: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        TalentSelectScreen.superMode()));
+                              context,
+                              MaterialPageRoute(builder: (context) => TalentSelectScreen.superMode()),
+                            );
                           },
                           child: const Text('开启超级人生')),
-                    ])
+                    ]),
                   ]
-                : [const Text('资源加载中...')],
+                : [
+                    const Text('资源加载中...'),
+                  ],
           ),
-        )),
-        floatingActionButton:
-            Consumer<ThemeStore>(builder: (context, themeStore, child) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              FloatingActionButton.extended(
-                heroTag: "a",
-                onPressed: () {
-                  themeStore.toggleDarkMode();
-                },
-                tooltip: '切换主题',
-                icon: Icon(themeStore.currentMode.icon),
-                label: Text(themeStore.currentMode.label),
-              ),
-              const SizedBox(width: 10),
-              FloatingActionButton(
-                heroTag: "b",
-                onPressed: () {
-                  themeStore.toggleColor();
-                },
-                tooltip: '切换颜色',
-                child: Text(themeStore.currentColor.label),
-              ),
-            ],
-          );
-        }));
+        ),
+      ),
+      floatingActionButton: Consumer<ThemeStore>(builder: (context, themeStore, child) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            FloatingActionButton.extended(
+              heroTag: "a",
+              onPressed: () {
+                themeStore.toggleDarkMode();
+              },
+              tooltip: '切换主题',
+              icon: Icon(themeStore.currentMode.icon),
+              label: Text(themeStore.currentMode.label),
+            ),
+            const SizedBox(width: 10),
+            FloatingActionButton(
+              heroTag: "b",
+              onPressed: () {
+                themeStore.toggleColor();
+              },
+              tooltip: '切换颜色',
+              child: Text(themeStore.currentColor.label),
+            ),
+          ],
+        );
+      }),
+    );
   }
 }

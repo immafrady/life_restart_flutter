@@ -13,8 +13,7 @@ class TalentManager {
   TalentManager({required this.talents});
 
   // 全部talents列表（根据等级排序后）
-  List<Talent> get sortedTalents =>
-      talents.getAll()..sort((a, b) => b.grade - a.grade);
+  List<Talent> get sortedTalents => talents.getAll()..sort((a, b) => b.grade - a.grade);
 
   List<Talent> pick10RandomTalents(int? selectedId) {
     // 根据grade划分的map
@@ -35,8 +34,7 @@ class TalentManager {
     // 挑十个出来
     while (list.length < 10) {
       final rnd = Random().nextDouble();
-      var grade =
-          switch (rnd) { >= 0.111 => 0, >= 0.011 => 1, >= 0.001 => 2, _ => 3 };
+      var grade = switch (rnd) { >= 0.111 => 0, >= 0.011 => 1, >= 0.001 => 2, _ => 3 };
       while (map[grade]!.isEmpty) {
         // 排除掉空了的等级列表
         grade--;
@@ -67,8 +65,7 @@ class TalentManager {
 
   Talent? doTalent(int talentId, Person person) {
     final talent = talents.get(talentId);
-    if (talent.condition.isNotEmpty &&
-        !checkCondition(person, talent.condition)) {
+    if (talent.condition.isNotEmpty && !checkCondition(person, talent.condition)) {
       return null;
     }
     return talent;
@@ -91,7 +88,7 @@ class TalentManager {
           if (exclusive(tIds, targetTalent.id) != null) continue;
           list.add((
             key: targetTalent.id,
-            weight: talent.replacement.grade[targetTalent.grade]!
+            weight: talent.replacement.grade[targetTalent.grade]!,
           ));
         }
       }
@@ -99,7 +96,10 @@ class TalentManager {
       if (talent.replacement.talent.isNotEmpty) {
         for (var id in talent.replacement.talent.keys) {
           if (exclusive(tIds, id) != null) continue;
-          list.add((key: id, weight: talent.replacement.talent[id]!));
+          list.add((
+            key: id,
+            weight: talent.replacement.talent[id]!,
+          ));
         }
       }
 
@@ -111,7 +111,10 @@ class TalentManager {
       final replaceList = getReplaceList(tId, tIds);
       if (replaceList == null) return tId;
       final id = weightRandom(replaceList);
-      return innerReplace(id, List.from(tIds)..add(id));
+      return innerReplace(
+        id,
+        List.from(tIds)..add(id),
+      );
     }
 
     final List<int> newTalentIds = List.from(talentIds);

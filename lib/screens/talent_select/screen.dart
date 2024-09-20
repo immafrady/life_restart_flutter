@@ -122,7 +122,7 @@ class _TalentSelectState extends State<TalentSelectScreen> {
                     ),
                   ],
                 ),
-              )
+              ),
           ],
         ),
       ),
