@@ -29,7 +29,18 @@ class _TalentItemWidgetState extends State<TalentItemWidget> with SingleTickerPr
     _controller = AnimationController(
       duration: const Duration(seconds: 3),
       vsync: this,
-    )..repeat();
+    );
+  }
+
+  @override
+  void didUpdateWidget(covariant TalentItemWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.active) {
+      // 当激活状态下才开始动画
+      _controller.repeat();
+    } else {
+      _controller.reset();
+    }
   }
 
   @override
@@ -93,7 +104,7 @@ class _TalentItemWidgetState extends State<TalentItemWidget> with SingleTickerPr
                   // 屏幕的宽度
                   offset: Offset(_controller.value * MediaQuery.of(context).size.width, 0),
                   child: Container(
-                    color: Colors.black.withOpacity((_controller.value - 0.5).abs() * 0.2),
+                    color: Colors.black.withOpacity((_controller.value - 0.5).abs() * 1),
                     width: double.infinity,
                     height: double.infinity,
                   ),
