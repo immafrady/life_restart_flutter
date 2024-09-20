@@ -18,8 +18,7 @@ class TalentSelectScreen extends StatefulWidget {
   TalentSelectScreen.normalMode({super.key})
       : max = 3,
         mode = Mode.normalMode {
-    fetchTalents =
-        (CoreDelegate core) => core.talentManager.pick10RandomTalents(null);
+    fetchTalents = (CoreDelegate core) => core.talentManager.pick10RandomTalents(null);
   }
 
   TalentSelectScreen.viewMode({super.key})
@@ -41,9 +40,17 @@ class _TalentSelectState extends State<TalentSelectScreen> {
   updateTalentPool() {
     setState(() {
       _selectedIds = {};
-      _talentPool = widget
-          .fetchTalents(Provider.of<CoreDelegate>(context, listen: false));
+      _talentPool = widget.fetchTalents(Provider.of<CoreDelegate>(context, listen: false));
     });
+  }
+
+  showSnackBar(String content) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(content),
+      behavior: SnackBarBehavior.floating,
+      showCloseIcon: true,
+      duration: const Duration(milliseconds: 1500),
+    ));
   }
 
   @override
@@ -67,11 +74,26 @@ class _TalentSelectState extends State<TalentSelectScreen> {
                   talentPool: _talentPool,
                   onSelect: (int id) {
                     setState(() {
+                      // 操作id的主逻辑
                       if (_selectedIds.contains(id)) {
                         // 删除
                         _selectedIds.remove(id);
                       } else {
-                        _selectedIds.add(id);
+                        if (widget.max > 0 && _selectedIds.length >= widget.max) {
+                          // 超了
+                          showSnackBar('最多只能选择${widget.max}个天赋');
+                        } else {
+                          final core = Provider.of<CoreDelegate>(context, listen: false);
+                          final exclusiveId = core.talentManager.exclusive(_selectedIds.toList(), id);
+                          if (exclusiveId is int) {
+                            // 冲突了
+                            final exclusiveTalent = core.dictStore.talents.get(exclusiveId);
+                            final selectedTalent = core.dictStore.talents.get(id);
+                            showSnackBar('【${selectedTalent.name}】和已选天赋【${exclusiveTalent.name}】冲突');
+                          } else {
+                            _selectedIds.add(id);
+                          }
+                        }
                       }
                     });
                   }),
