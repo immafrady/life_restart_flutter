@@ -36,9 +36,11 @@ class TalentSelectScreen extends StatefulWidget {
 
 class _TalentSelectState extends State<TalentSelectScreen> {
   List<Talent> _talentPool = [];
+  Set<int> _selectedIds = {};
 
   updateTalentPool() {
     setState(() {
+      _selectedIds = {};
       _talentPool = widget
           .fetchTalents(Provider.of<CoreDelegate>(context, listen: false));
     });
@@ -60,7 +62,19 @@ class _TalentSelectState extends State<TalentSelectScreen> {
         child: Column(
           children: [
             Expanded(
-              child: TalentListWidget(talentPool: _talentPool, max: widget.max),
+              child: TalentListWidget(
+                  selectedIds: _selectedIds,
+                  talentPool: _talentPool,
+                  onSelect: (int id) {
+                    setState(() {
+                      if (_selectedIds.contains(id)) {
+                        // 删除
+                        _selectedIds.remove(id);
+                      } else {
+                        _selectedIds.add(id);
+                      }
+                    });
+                  }),
             ),
             if (widget.mode != Mode.viewMode) // 有判断
               Container(
