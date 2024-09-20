@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 typedef ColorRecord = ({Color normal, Color active});
 
-class TalentItemWidget extends StatelessWidget {
+class TalentItemWidget extends StatefulWidget {
   const TalentItemWidget({
     super.key,
     required this.name,
@@ -16,14 +16,36 @@ class TalentItemWidget extends StatelessWidget {
   final int grade;
   final bool active;
 
-  ColorRecord get _lightBackground => switch (grade) {
+  @override
+  State<TalentItemWidget> createState() => _TalentItemWidgetState();
+}
+
+class _TalentItemWidgetState extends State<TalentItemWidget> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(seconds: 3),
+      vsync: this,
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  ColorRecord get _lightBackground => switch (widget.grade) {
         3 => (normal: const Color(0xffffa07a), active: const Color(0xffff7f4d)),
         2 => (normal: const Color(0xffe2a7ff), active: const Color(0xffb362e7)),
         1 => (normal: const Color(0xff7ea5ec), active: const Color(0xff407dec)),
         _ => (normal: const Color(0xffededed), active: const Color(0xff444444)),
       };
 
-  ColorRecord get _darkBackground => switch (grade) {
+  ColorRecord get _darkBackground => switch (widget.grade) {
         3 => (normal: const Color(0xffffa07a), active: const Color(0xfff1bfac)),
         2 => (normal: const Color(0xffe2a7ff), active: const Color(0xffe7beff)),
         1 => (normal: const Color(0xff6495ed), active: const Color(0xff87cefa)),
@@ -35,23 +57,51 @@ class TalentItemWidget extends StatelessWidget {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
     final color = isDark ? _darkBackground : _lightBackground;
-    final textColor =
-        isDark ? const Color(0xffeeeeee) : const Color(0xff666666);
-    final textActiveColor =
-        isDark ? const Color(0xff3b3b3b) : const Color(0xffffffff);
-    return Container(
-      height: 50,
-      decoration: BoxDecoration(
-          color: active ? color.active : color.normal,
-          border: Border.all(color: theme.colorScheme.primary, width: 1)),
-      child: Center(
-          child: Text(
-        '$name ($description)',
-        style: Theme.of(context)
-            .textTheme
-            .titleMedium
-            ?.copyWith(color: active ? textActiveColor : textColor),
-      )),
+    final textColor = isDark ? const Color(0xffeeeeee) : const Color(0xff666666);
+    final textActiveColor = isDark ? const Color(0xff3b3b3b) : const Color(0xffffffff);
+    return Stack(
+      children: [
+        Container(
+          height: 50,
+          decoration: BoxDecoration(
+            color: widget.active ? color.active : color.normal,
+            border: Border.all(color: theme.colorScheme.primary, width: 1),
+            boxShadow: [
+              if (widget.active)
+                const BoxShadow(
+                  color: Colors.grey,
+                  blurRadius: 10,
+                  spreadRadius: 0,
+                ),
+            ],
+          ),
+          child: Center(
+            child: Text(
+              '${widget.name} (${widget.description})',
+              style:
+                  Theme.of(context).textTheme.titleMedium?.copyWith(color: widget.active ? textActiveColor : textColor),
+            ),
+          ),
+        ),
+        if (widget.active)
+          Positioned.fill(
+            child: AnimatedBuilder(
+              animation: _controller,
+              builder: (context, child) => Opacity(
+                opacity: _controller.value,
+                child: Transform.translate(
+                  // 屏幕的宽度
+                  offset: Offset(_controller.value * MediaQuery.of(context).size.width, 0),
+                  child: Container(
+                    color: Colors.black.withOpacity((_controller.value - 0.5).abs() * 0.2),
+                    width: double.infinity,
+                    height: double.infinity,
+                  ),
+                ),
+              ),
+            ),
+          ),
+      ],
     );
   }
 }
