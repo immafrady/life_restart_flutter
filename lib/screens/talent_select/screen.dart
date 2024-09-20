@@ -35,6 +35,21 @@ class TalentSelectScreen extends StatefulWidget {
 }
 
 class _TalentSelectState extends State<TalentSelectScreen> {
+  List<Talent> _talentPool = [];
+
+  updateTalentPool() {
+    setState(() {
+      _talentPool = widget
+          .fetchTalents(Provider.of<CoreDelegate>(context, listen: false));
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(updateTalentPool);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,10 +60,7 @@ class _TalentSelectState extends State<TalentSelectScreen> {
         child: Column(
           children: [
             Expanded(
-              child: TalentListWidget(
-                  talentPool:
-                      widget.fetchTalents(Provider.of<CoreDelegate>(context)),
-                  max: widget.max),
+              child: TalentListWidget(talentPool: _talentPool, max: widget.max),
             ),
             if (widget.mode != Mode.viewMode) // 有判断
               Container(
@@ -59,7 +71,9 @@ class _TalentSelectState extends State<TalentSelectScreen> {
                     // 解构了
                     if (widget.mode == Mode.normalMode) ...[
                       ElevatedButton.icon(
-                        onPressed: () {},
+                        onPressed: () {
+                          updateTalentPool();
+                        },
                         icon: const Icon(Icons.casino),
                         label: const Text("换一换"),
                       ),
@@ -67,7 +81,7 @@ class _TalentSelectState extends State<TalentSelectScreen> {
                     ],
                     ElevatedButton.icon(
                       onPressed: null,
-                      icon: const Icon(Icons.start),
+                      icon: const Icon(Icons.restart_alt),
                       label: const Text("立刻开始"),
                     ),
                   ],
