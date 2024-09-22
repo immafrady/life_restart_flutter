@@ -116,7 +116,15 @@ class _TalentSelectState extends State<TalentSelectScreen> {
                       const SizedBox(width: 20),
                     ],
                     ElevatedButton.icon(
-                      onPressed: null,
+                      onPressed: () {
+                        if (_selectedIds.isEmpty) {
+                          showSnackBar('请选择至少一个天赋');
+                        } else {
+                          if (_selectedIds.length != widget.max) {
+                            showSnackBar('请选择${widget.max}个天赋, 当前已选择${_selectedIds.length}个');
+                          }
+                        }
+                      },
                       icon: const Icon(Icons.restart_alt),
                       label: const Text("立刻开始"),
                     ),

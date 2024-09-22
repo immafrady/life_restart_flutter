@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'dart:math' as math;
+
+import 'package:flutter/material.dart';
 
 typedef ColorRecord = ({Color normal, Color active});
 
@@ -28,7 +29,7 @@ class _TalentItemWidgetState extends State<TalentItemWidget> with SingleTickerPr
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(seconds: 3),
+      duration: Duration(milliseconds: _animationDuration),
       vsync: this,
     );
   }
@@ -49,6 +50,13 @@ class _TalentItemWidgetState extends State<TalentItemWidget> with SingleTickerPr
     _controller.dispose();
     super.dispose();
   }
+
+  int get _animationDuration => switch (widget.grade) {
+        3 => 2000,
+        2 => 3000,
+        1 => 4000,
+        _ => 5000,
+      };
 
   ColorRecord get _lightBackground => switch (widget.grade) {
         3 => (normal: const Color(0xffffa07a), active: const Color(0xffff7f4d)),
@@ -90,8 +98,7 @@ class _TalentItemWidgetState extends State<TalentItemWidget> with SingleTickerPr
           child: Center(
             child: Text(
               '${widget.name} (${widget.description})',
-              style:
-                  Theme.of(context).textTheme.titleMedium?.copyWith(color: widget.active ? textActiveColor : textColor),
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(color: widget.active ? textActiveColor : textColor),
             ),
           ),
         ),
@@ -103,7 +110,7 @@ class _TalentItemWidgetState extends State<TalentItemWidget> with SingleTickerPr
                 opacity: _controller.value,
                 child: Transform.translate(
                   // 屏幕的宽度
-                  offset: Offset(_controller.value * MediaQuery.of(context).size.width, 0),
+                  offset: Offset(_controller.value * MediaQuery.of(context).size.width * 0.8, 0),
                   child: Container(
                     color: Colors.black.withOpacity(math.sin(math.pi * _controller.value) * 0.2),
                     width: double.infinity,
