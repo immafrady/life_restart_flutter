@@ -63,6 +63,15 @@ class TalentManager {
     return null;
   }
 
+  // 统计可以使用的额外点数
+  int getAdditionPoints(List<int> talentIds) {
+    int point = 0;
+    for (var talentId in talentIds) {
+      point += talents.get(talentId).status;
+    }
+    return point;
+  }
+
   Talent? doTalent(int talentId, Person person) {
     final talent = talents.get(talentId);
     if (talent.condition.isNotEmpty && !checkCondition(person, talent.condition)) {

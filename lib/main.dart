@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:life_restart/constants/strings.dart' as strings;
 import 'package:life_restart/core/core.dart';
 import 'package:life_restart/screens/home/screen.dart';
+import 'package:life_restart/stores/player.dart';
 import 'package:life_restart/stores/theme.dart';
 import 'package:provider/provider.dart';
 
@@ -13,6 +14,9 @@ void main() {
       ),
       ChangeNotifierProvider<CoreDelegate>(
         create: (context) => CoreDelegate()..initialize(),
+      ),
+      ChangeNotifierProvider<PlayerStore>(
+        create: (context) => PlayerStore()..reset(),
       ),
     ],
     child: const MyApp(),

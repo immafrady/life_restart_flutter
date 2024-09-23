@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:life_restart/core/core.dart';
 import 'package:life_restart/core/dict/talent.dart';
+import 'package:life_restart/screens/talent_point/screen.dart';
+import 'package:life_restart/stores/player.dart';
 import 'package:life_restart/widgets/talent_list/widget.dart';
 import 'package:provider/provider.dart';
 
@@ -11,22 +13,26 @@ enum Mode { superMode, viewMode, normalMode }
 class TalentSelectScreen extends StatefulWidget {
   TalentSelectScreen.superMode({super.key})
       : max = -1,
-        mode = Mode.superMode {
+        mode = Mode.superMode,
+        totalPoint = 30 {
     fetchTalents = (CoreDelegate core) => core.talentManager.sortedTalents;
   }
 
   TalentSelectScreen.normalMode({super.key})
       : max = 3,
-        mode = Mode.normalMode {
+        mode = Mode.normalMode,
+        totalPoint = 20 {
     fetchTalents = (CoreDelegate core) => core.talentManager.pick10RandomTalents(null);
   }
 
   TalentSelectScreen.viewMode({super.key})
       : max = -1,
-        mode = Mode.viewMode;
+        mode = Mode.viewMode,
+        totalPoint = 0;
 
   final Mode mode;
   final int max;
+  final int totalPoint;
   late final List<Talent> Function(CoreDelegate) fetchTalents;
 
   @override
@@ -115,19 +121,32 @@ class _TalentSelectState extends State<TalentSelectScreen> {
                       ),
                       const SizedBox(width: 20),
                     ],
-                    FilledButton.icon(
-                      onPressed: () {
-                        if (_selectedIds.isEmpty) {
-                          showSnackBar('请选择至少一个天赋');
-                        } else {
-                          if (_selectedIds.length != widget.max) {
-                            showSnackBar('请选择${widget.max}个天赋, 当前已选择${_selectedIds.length}个');
+                    Hero(
+                      tag: 'start',
+                      child: FilledButton.icon(
+                        onPressed: () {
+                          if (_selectedIds.isEmpty) {
+                            showSnackBar('请选择至少一个天赋');
+                          } else {
+                            if (widget.max > 0 && _selectedIds.length != widget.max) {
+                              // 最大值超过0才需要判定天赋有没有选够
+                              showSnackBar('请选择${widget.max}个天赋, 当前已选择${_selectedIds.length}个');
+                            } else {
+                              Provider.of<PlayerStore>(context, listen: false).talentIds = _selectedIds.toList();
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => TalentPointScreen(
+                                    initPoint: widget.totalPoint,
+                                  ),
+                                ),
+                              );
+                            }
                           }
-                        }
-                      },
-                      icon: const Icon(Icons.restart_alt),
-                      label: const Text("立刻开始"),
-                    ),
+                        },
+                        icon: const Icon(Icons.restart_alt),
+                        label: const Text("立刻开始"),
+                      ),
+                    )
                   ],
                 ),
               ),
