@@ -115,7 +115,7 @@ class _TalentSelectState extends State<TalentSelectScreen> {
                       ),
                       const SizedBox(width: 20),
                     ],
-                    ElevatedButton.icon(
+                    FilledButton.icon(
                       onPressed: () {
                         if (_selectedIds.isEmpty) {
                           showSnackBar('请选择至少一个天赋');
