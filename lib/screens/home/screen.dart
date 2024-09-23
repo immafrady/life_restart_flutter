@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:life_restart/constants/hero_tags.dart' as tags;
 import 'package:life_restart/core/core.dart';
 import 'package:life_restart/screens/talent_select/screen.dart';
 import 'package:life_restart/stores/theme.dart';
@@ -55,7 +56,7 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             FloatingActionButton.extended(
-              heroTag: "a",
+              heroTag: tags.homeFloatingThemeChanger,
               onPressed: () {
                 themeStore.toggleDarkMode();
               },
@@ -65,7 +66,7 @@ class HomeScreen extends StatelessWidget {
             ),
             const SizedBox(width: 10),
             FloatingActionButton(
-              heroTag: "b",
+              heroTag: tags.homeFloatingColorChanger,
               onPressed: () {
                 themeStore.toggleColor();
               },
