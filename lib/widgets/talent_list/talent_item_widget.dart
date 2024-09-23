@@ -52,10 +52,10 @@ class _TalentItemWidgetState extends State<TalentItemWidget> with SingleTickerPr
   }
 
   int get _animationDuration => switch (widget.grade) {
-        3 => 2000,
-        2 => 3000,
-        1 => 4000,
-        _ => 5000,
+        3 => 500,
+        2 => 1000,
+        1 => 1500,
+        _ => 2000,
       };
 
   ColorRecord get _lightBackground => switch (widget.grade) {
@@ -98,7 +98,8 @@ class _TalentItemWidgetState extends State<TalentItemWidget> with SingleTickerPr
           child: Center(
             child: Text(
               '${widget.name} (${widget.description})',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(color: widget.active ? textActiveColor : textColor),
+              style:
+                  Theme.of(context).textTheme.titleMedium?.copyWith(color: widget.active ? textActiveColor : textColor),
             ),
           ),
         ),
