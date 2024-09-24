@@ -13,21 +13,29 @@ class PointEditWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final fontStyle = Theme.of(context).textTheme.headlineSmall;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           propertyKey.desc,
-          style: Theme.of(context).textTheme.bodyLarge,
+          style: fontStyle,
+        ),
+        const SizedBox(
+          width: 20,
         ),
         IconButton(
           onPressed: value > 0 ? () => onChanged(value - 1) : null,
           icon: const Icon(Icons.remove),
         ),
-        Text(
-          '$value',
-          style: Theme.of(context).textTheme.bodyLarge,
-          strutStyle: const StrutStyle(),
+        SizedBox(
+          width: fontStyle!.fontSize! * 2,
+          child: Text(
+            '$value',
+            textAlign: TextAlign.center,
+            style: fontStyle,
+            strutStyle: const StrutStyle(),
+          ),
         ),
         IconButton(
           onPressed: value < total ? () => onChanged(value + 1) : null,
