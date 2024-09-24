@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:life_restart/core/core.dart';
 import 'package:life_restart/core/types.dart';
@@ -20,12 +22,11 @@ class _TalentPointScreenState extends State<TalentPointScreen> {
   // 总点数
   int _totalPoints = 0;
 
-  Map<PropertyKey, int> _map = {
-    PropertyKey.charm: 0,
-    PropertyKey.strength: 0,
-    PropertyKey.intelligence: 0,
-    PropertyKey.money: 0
-  };
+  late Map<PropertyKey, int> _map = _resetMap();
+
+  _resetMap() {
+    _map = Provider.of<PlayerStore>(context, listen: false).getBasePointRecord();
+  }
 
   // 自由点数
   int get _freePoints => _totalPoints - _map.values.reduce((total, curr) => total + curr);
@@ -104,7 +105,17 @@ class _TalentPointScreenState extends State<TalentPointScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                      _resetMap();
+                      final keyList = _map.keys.toList();
+                      final rnd = Random();
+                      setState(() {
+                        for (var i = 0; i < _totalPoints; i++) {
+                          final key = keyList[rnd.nextInt(keyList.length)];
+                          _map[key] = 1 + _map[key]!;
+                        }
+                      });
+                    },
                     icon: const Icon(Icons.casino),
                     label: const Text("随机分配"),
                   ),
