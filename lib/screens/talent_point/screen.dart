@@ -46,6 +46,7 @@ class _TalentPointScreenState extends State<TalentPointScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final headlineSmall = Theme.of(context).textTheme.headlineSmall!;
     return Scaffold(
       appBar: const MyAppBar(title: '调整初始属性'),
       body: Padding(
@@ -53,22 +54,68 @@ class _TalentPointScreenState extends State<TalentPointScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Center(
-              child: Text(
-                '可用属性点$_freePoints',
-                style: Theme.of(context).textTheme.headlineSmall,
+            Padding(
+              padding: const EdgeInsets.only(top: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '可用属性点',
+                    style: headlineSmall,
+                  ),
+                  SizedBox(
+                    width: headlineSmall.fontSize! * 0.5,
+                  ),
+                  SizedBox(
+                    width: headlineSmall.fontSize! * 2,
+                    child: Text(
+                      '$_freePoints',
+                      textAlign: TextAlign.end,
+                      style: headlineSmall,
+                    ),
+                  )
+                ],
               ),
             ),
-            ...[PropertyKey.charm, PropertyKey.intelligence, PropertyKey.strength, PropertyKey.money].map(
-              (propertyKey) => PointEditWidget(
-                propertyKey: propertyKey,
-                value: _map[propertyKey]!,
-                total: _freePoints + _map[propertyKey]!,
-                onChanged: (value) {
-                  setState(() {
-                    _map[propertyKey] = value;
-                  });
-                },
+            Expanded(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [PropertyKey.charm, PropertyKey.intelligence, PropertyKey.strength, PropertyKey.money]
+                      .map(
+                        (propertyKey) => PointEditWidget(
+                          propertyKey: propertyKey,
+                          value: _map[propertyKey]!,
+                          total: _freePoints + _map[propertyKey]!,
+                          onChanged: (value) {
+                            setState(() {
+                              _map[propertyKey] = value;
+                            });
+                          },
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton.icon(
+                    onPressed: () {},
+                    icon: const Icon(Icons.casino),
+                    label: const Text("随机分配"),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  FilledButton(
+                    onPressed: () {},
+                    child: const Text('开始新人生'),
+                  ),
+                ],
               ),
             )
           ],

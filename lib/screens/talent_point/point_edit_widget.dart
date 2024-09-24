@@ -14,17 +14,25 @@ class PointEditWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(propertyKey.desc),
-        Slider(
-          value: value.toDouble(),
-          max: total.toDouble(),
-          onChanged: (v) {
-            onChanged(v.toInt());
-          },
+        Text(
+          propertyKey.desc,
+          style: Theme.of(context).textTheme.bodyLarge,
         ),
-        Text('$value'),
+        IconButton(
+          onPressed: value > 0 ? () => onChanged(value - 1) : null,
+          icon: const Icon(Icons.remove),
+        ),
+        Text(
+          '$value',
+          style: Theme.of(context).textTheme.bodyLarge,
+          strutStyle: const StrutStyle(),
+        ),
+        IconButton(
+          onPressed: value < total ? () => onChanged(value + 1) : null,
+          icon: const Icon(Icons.add),
+        ),
       ],
     );
   }
