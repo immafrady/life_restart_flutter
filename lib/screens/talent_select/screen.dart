@@ -3,6 +3,7 @@ import 'package:life_restart/core/core.dart';
 import 'package:life_restart/core/dict/talent.dart';
 import 'package:life_restart/screens/talent_point/screen.dart';
 import 'package:life_restart/stores/player.dart';
+import 'package:life_restart/widgets/my_material_banner/widget.dart';
 import 'package:life_restart/widgets/talent_list/widget.dart';
 import 'package:provider/provider.dart';
 
@@ -50,15 +51,6 @@ class _TalentSelectState extends State<TalentSelectScreen> {
     });
   }
 
-  showSnackBar(String content) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(content),
-      behavior: SnackBarBehavior.floating,
-      showCloseIcon: true,
-      duration: const Duration(milliseconds: 1500),
-    ));
-  }
-
   @override
   void initState() {
     super.initState();
@@ -88,7 +80,10 @@ class _TalentSelectState extends State<TalentSelectScreen> {
                       } else {
                         if (widget.max > 0 && _selectedIds.length >= widget.max) {
                           // 超了
-                          showSnackBar('最多只能选择${widget.max}个天赋');
+                          MyMaterialBanner.of(context).showMessage(
+                            '最多只能选择${widget.max}个天赋',
+                            type: AlertType.warning,
+                          );
                         } else {
                           final core = Provider.of<CoreDelegate>(context, listen: false);
                           final exclusiveId = core.talentManager.exclusive(_selectedIds.toList(), id);
@@ -96,7 +91,10 @@ class _TalentSelectState extends State<TalentSelectScreen> {
                             // 冲突了
                             final exclusiveTalent = core.dictStore.talents.get(exclusiveId);
                             final selectedTalent = core.dictStore.talents.get(id);
-                            showSnackBar('【${selectedTalent.name}】和已选天赋【${exclusiveTalent.name}】冲突');
+                            MyMaterialBanner.of(context).showMessage(
+                              '【${selectedTalent.name}】和已选天赋【${exclusiveTalent.name}】冲突',
+                              type: AlertType.warning,
+                            );
                           } else {
                             _selectedIds.add(id);
                           }
@@ -117,7 +115,7 @@ class _TalentSelectState extends State<TalentSelectScreen> {
                         onPressed: () {
                           updateTalentPool();
                         },
-                        icon: const Icon(Icons.casino),
+                        icon: const Icon(Icons.restart_alt),
                         label: const Text("换一换"),
                       ),
                       const SizedBox(width: 20),
@@ -125,11 +123,17 @@ class _TalentSelectState extends State<TalentSelectScreen> {
                     FilledButton.icon(
                       onPressed: () {
                         if (_selectedIds.isEmpty) {
-                          showSnackBar('请选择至少一个天赋');
+                          MyMaterialBanner.of(context).showMessage(
+                            '请选择至少一个天赋',
+                            type: AlertType.error,
+                          );
                         } else {
                           if (widget.max > 0 && _selectedIds.length != widget.max) {
                             // 最大值超过0才需要判定天赋有没有选够
-                            showSnackBar('请选择${widget.max}个天赋, 当前已选择${_selectedIds.length}个');
+                            MyMaterialBanner.of(context).showMessage(
+                              '请选择${widget.max}个天赋, 当前已选择${_selectedIds.length}个',
+                              type: AlertType.error,
+                            );
                           } else {
                             Provider.of<PlayerStore>(context, listen: false).talentIds = _selectedIds.toList();
                             Navigator.of(context).push(

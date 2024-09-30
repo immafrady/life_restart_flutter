@@ -6,6 +6,7 @@ import 'package:life_restart/core/types.dart';
 import 'package:life_restart/screens/talent_point/point_edit_widget.dart';
 import 'package:life_restart/stores/player.dart';
 import 'package:life_restart/widgets/my_app_bar/widget.dart';
+import 'package:life_restart/widgets/my_material_banner/widget.dart';
 import 'package:provider/provider.dart';
 
 class TalentPointScreen extends StatefulWidget {
@@ -123,7 +124,14 @@ class _TalentPointScreenState extends State<TalentPointScreen> {
                     width: 20,
                   ),
                   FilledButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if (_freePoints > 0) {
+                        MyMaterialBanner.of(context).showMessage(
+                          '剩余属性点$_freePoints',
+                          type: AlertType.error,
+                        );
+                      }
+                    },
                     child: const Text('开始新人生'),
                   ),
                 ],
