@@ -24,7 +24,7 @@ class _TalentPointScreenState extends State<TalentPointScreen> {
   // 总点数
   int _totalPoints = 0;
 
-  late Map<PropertyKey, int> _map = _resetMap();
+  late Map<PropertyKey, int> _map;
 
   _resetMap() {
     _map = Provider.of<PlayerStore>(context, listen: false).getBasePointRecord();
@@ -43,6 +43,8 @@ class _TalentPointScreenState extends State<TalentPointScreen> {
       if (playerStore.totalPoints < _totalPoints) {
         // 可选的多于上次选择的，直接把值拷过来，让用户和上次玩有关联
         _map = playerStore.pointRecord;
+      } else {
+        _resetMap();
       }
     });
   }
