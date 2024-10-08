@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:life_restart/core/core.dart';
 import 'package:life_restart/core/types.dart';
+import 'package:life_restart/screens/game/screen.dart';
 import 'package:life_restart/screens/talent_point/point_edit_widget.dart';
 import 'package:life_restart/stores/player.dart';
 import 'package:life_restart/widgets/my_app_bar/widget.dart';
@@ -130,6 +131,9 @@ class _TalentPointScreenState extends State<TalentPointScreen> {
                           '剩余属性点$_freePoints',
                           type: AlertType.error,
                         );
+                      } else {
+                        Provider.of<PlayerStore>(context, listen: false).pointRecord = _map;
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const GameScreen()));
                       }
                     },
                     child: const Text('开始新人生'),
