@@ -65,9 +65,9 @@ bool checkProp(Person person, String condition) {
   if (match == null) return false;
 
   final propertyKey = PropertyKey.parse(condition.substring(0, match.start))!;
-  int symbolEnd = condition[match.start + 1] == '=' ? 2 : 1;
-  final symbol = condition.substring(match.start, symbolEnd);
-  final d = condition.substring(symbolEnd, condition.length);
+  int i = match.start + (condition[match.start + 1] == '=' ? 2 : 1);
+  final symbol = condition.substring(match.start, i);
+  final d = condition.substring(i, condition.length);
 
   final propData = switch (propertyKey.type) {
     PropertyType.attribute => person.getAttribute(propertyKey),
@@ -76,7 +76,7 @@ bool checkProp(Person person, String condition) {
   };
 
   if (d.startsWith('[')) {
-    final List<int> arrData = jsonDecode(d);
+    final List<dynamic> arrData = jsonDecode(d);
     if (propData is List<int>) {
       // 数组
       return switch (symbol) {
