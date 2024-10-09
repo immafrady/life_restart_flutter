@@ -72,7 +72,7 @@ class TalentManager {
     return point;
   }
 
-  Talent? doTalent(int talentId, Person person) {
+  Talent? apply(int talentId, Person person) {
     final talent = talents.get(talentId);
     if (talent.condition.isNotEmpty && !checkCondition(person, talent.condition)) {
       return null;
@@ -80,6 +80,7 @@ class TalentManager {
     return talent;
   }
 
+  // Map<原id, 替换后id> 计算id和替换后的id
   Map<int, int> replace(List<int> talentIds) {
     // 返回值是：（id, 权重)
     List<RecordWeight>? getReplaceList(int tId, List<int> tIds) {
@@ -136,5 +137,19 @@ class TalentManager {
       }
     }
     return result;
+  }
+
+  // 替换天赋
+  (List<int>, List<(Talent, Talent)>) doReplace(List<int> talentIds) {
+    final result = replace(talentIds);
+    return (
+      [...talentIds, ...result.values],
+      result.entries
+          .map((e) => (
+                talents.get(e.key), // 旧天赋
+                talents.get(e.value), // 新天赋
+              ))
+          .toList(),
+    );
   }
 }

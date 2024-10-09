@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:life_restart/core/types.dart';
+import '../types.dart';
 
 // 人(记录属性变动)
 class Person {
@@ -8,8 +8,8 @@ class Person {
     reset();
   }
 
-  Map<PropertyKey, int> attributes = {};
-  Map<PropertyKey, List<int>> relations = {};
+  AttributeMap attributes = {};
+  RelationMap relations = {};
 
   void reset() {
     attributes = {
@@ -58,11 +58,9 @@ class Person {
   }
 
   // 取值
-  int getAttribute(PropertyKey key) =>
-      key.type == PropertyType.attribute ? attributes[key]! : 0;
+  int getAttribute(PropertyKey key) => key.type == PropertyType.attribute ? attributes[key]! : 0;
 
-  List<int> getRelation(PropertyKey key) =>
-      key.type == PropertyType.relation ? relations[key]! : [];
+  List<int> getRelation(PropertyKey key) => key.type == PropertyType.relation ? relations[key]! : [];
 
   PropertyKey _randomAttribute() {
     final list = attributes.keys.toList();

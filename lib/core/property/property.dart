@@ -9,10 +9,10 @@ class PropertyController {
 
   PropertyController();
 
-  restart({Map<PropertyKey, int> initValue = const {}}) {
+  restart({required AttributeMap attributes, required RelationMap relations}) {
     person.reset();
     record.reset();
-    doEffect(initValue);
+    applyEffect({...attributes, ...relations});
   }
 
   // 是否结束
@@ -21,7 +21,7 @@ class PropertyController {
   }
 
   // 能力变动
-  void doEffect(Map<PropertyKey, int> map) {
+  void applyEffect(Map<PropertyKey, dynamic> map) {
     for (var MapEntry(:key, :value) in map.entries) {
       person.change(key, value);
     }

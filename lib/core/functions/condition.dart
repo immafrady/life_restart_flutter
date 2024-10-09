@@ -61,7 +61,9 @@ int extractMaxTrigger(String condition) {
 
 // 判断数值和条件的结果
 bool checkProp(Person person, String condition) {
-  RegExpMatch match = RegExp(r"[><!?=]/").firstMatch(condition)!; // 强制有！
+  final match = RegExp(r"[><\!\?=]").firstMatch(condition); // 强制有！
+  if (match == null) return false;
+
   final propertyKey = PropertyKey.parse(condition.substring(0, match.start))!;
   int symbolEnd = condition[match.start + 1] == '=' ? 2 : 1;
   final symbol = condition.substring(match.start, symbolEnd);
@@ -77,7 +79,11 @@ bool checkProp(Person person, String condition) {
     final List<int> arrData = jsonDecode(d);
     if (propData is List<int>) {
       // 数组
-      return switch (symbol) { '?' => propData.any((i) => arrData.contains(i)), '!' => !propData.any((i) => arrData.contains(i)), _ => false };
+      return switch (symbol) {
+        '?' => propData.any((i) => arrData.contains(i)),
+        '!' => !propData.any((i) => arrData.contains(i)),
+        _ => false
+      };
     } else if (propData is int) {
       // 数字
       return switch (symbol) { '?' => arrData.contains(propData), '!' => !arrData.contains(propData), _ => false };

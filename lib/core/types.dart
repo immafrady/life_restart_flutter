@@ -19,8 +19,7 @@ enum PropertyKey {
   final String desc;
   final PropertyType type;
 
-  const PropertyKey(
-      {required this.key, required this.desc, required this.type});
+  const PropertyKey({required this.key, required this.desc, required this.type});
 
   static PropertyKey? parse(String key) {
     for (var typeKey in PropertyKey.values) {
@@ -36,3 +35,7 @@ enum PropertyType { attribute, relation, special }
 
 // 权重record （key，对应的权重）
 typedef RecordWeight = ({int key, double weight});
+
+// 常用类型
+typedef AttributeMap = Map<PropertyKey, int>;
+typedef RelationMap = Map<PropertyKey, List<int>>;
