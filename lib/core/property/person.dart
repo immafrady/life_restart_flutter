@@ -30,7 +30,9 @@ class Person {
   // 数值变更
   change(PropertyKey key, Object value) {
     if (value is List<int>) {
-      value.forEach((v) => change(key, v));
+      for (var v in value) {
+        change(key, v);
+      }
     } else if (value is int) {
       if (key.type == PropertyType.attribute) {
         _setAttribute(key, value);
