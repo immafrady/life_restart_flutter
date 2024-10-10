@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 
-import 'dict/dict.dart';
 import 'dict/talent.dart';
 import 'manager/event.dart';
 import 'manager/talent.dart';
@@ -13,7 +12,7 @@ class CoreDelegate extends ChangeNotifier {
   bool isReady = false;
   final Sources _sources = Sources();
 
-  late final DictStore dictStore; // 总字典
+  get dictStore => _sources.dictStore; // 总字典
   late final EventManager eventManager;
   late final TalentManager talentManager;
 
@@ -26,8 +25,6 @@ class CoreDelegate extends ChangeNotifier {
     if (!_sources.isLoaded) {
       await _sources.load();
     }
-
-    dictStore = DictStore.fromJson(source: _sources.data);
     eventManager = EventManager(events: dictStore.events);
     talentManager = TalentManager(talents: dictStore.talents);
 
