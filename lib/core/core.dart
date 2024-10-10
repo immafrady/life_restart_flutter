@@ -60,7 +60,6 @@ class CoreDelegate extends ChangeNotifier {
       relations: {PropertyKey.talent: newTalentIds},
     );
     applyTalent();
-    propertyController.record.add(person: propertyController.person);
     notifyListeners();
     return replaceInfo;
   }

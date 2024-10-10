@@ -25,23 +25,23 @@ class PlayRecord {
   // 添加记录
   AgeRecord add({
     required Person person,
-    List<Talent>? talent,
-    List<Event>? event,
+    required List<Talent> talent,
+    required List<Event> event,
   }) {
     final Map<PropertyKey, int> attributes = {};
     for (var key in _propertyKeyList) {
       attributes[key] = person.getAttribute(key);
     }
-    final record = AgeRecord(talent: talent ?? [], event: event ?? [], attributes: attributes);
+    final record = AgeRecord(talent: talent, event: event, attributes: attributes);
     _list.add(record);
     return record;
   }
 
   // 获取完整记录
-  List<Map<PropertyKey, int>> get list => List.unmodifiable(_list);
+  List<AgeRecord> get list => List.unmodifiable(_list);
 
   // 获取最新记录
-  Map<PropertyKey, int> get lastRecord => list.last;
+  AgeRecord get lastRecord => list.last;
 }
 
 class AgeRecord {

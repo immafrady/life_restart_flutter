@@ -11,7 +11,7 @@ class Event {
   late final bool noRandom;
   late final String include;
   late final String exclude;
-  late List<(String, int)>? branch;
+  List<(String, int)>? branch;
 
   Event.fromJson(JSONMap json) {
     id = convertToInt(json['id']);

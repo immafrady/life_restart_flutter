@@ -60,7 +60,11 @@ class _GameScreenState extends State<GameScreen> {
                 );
               });
             },
-            onNext: () {},
+            onNext: () {
+              setState(() {
+                Provider.of<CoreDelegate>(context, listen: false).next();
+              });
+            },
           ),
         ],
       ),
