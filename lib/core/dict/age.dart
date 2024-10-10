@@ -3,8 +3,8 @@ import 'package:life_restart/utils/parsers.dart';
 
 class Age {
   late final int age;
-  late final List<(int, double)> event = [];
-  late final List<int> talent = []; // todo 这个好像是后面拼接上去的？
+  late final events = <RecordWeight>[];
+  late final talentIds = <int>[]; // todo 这个好像是后面拼接上去的？
 
   Age.fromJson(JSONMap json) {
     age = convertToInt(json['age']);
@@ -12,12 +12,12 @@ class Age {
     final List<dynamic> rawEvent = json['event'];
     for (var e in rawEvent) {
       if (e is int) {
-        event.add((e, 1.0));
+        events.add((key: e, weight: 1.0));
       } else if (e is String) {
         var pair = e.split('*');
-        event.add(switch (pair.length) {
-          1 => (int.parse(pair[0]), 1.0),
-          _ => (int.parse(pair[0]), double.parse(pair[1])),
+        events.add(switch (pair.length) {
+          1 => (key: int.parse(pair[0]), weight: 1.0),
+          _ => (key: int.parse(pair[0]), weight: double.parse(pair[1])),
         });
       }
     }
@@ -31,7 +31,7 @@ class Age {
         listTalent = rawTalent as List<dynamic>;
       }
       for (var t in listTalent) {
-        talent.add(convertToInt(t));
+        talentIds.add(convertToInt(t));
       }
     }
   }

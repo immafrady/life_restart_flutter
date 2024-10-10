@@ -1,3 +1,5 @@
+import '../dict/age.dart';
+import '../dict/data_dict.dart';
 import '../types.dart';
 import 'person.dart';
 import 'record.dart';
@@ -6,8 +8,9 @@ import 'record.dart';
 class PropertyController {
   final Person person = Person();
   final PlayRecord record = PlayRecord();
+  final DataDict<Age> ages;
 
-  PropertyController();
+  PropertyController({required this.ages});
 
   restart({required AttributeMap attributes, required RelationMap relations}) {
     person.reset();
@@ -27,8 +30,10 @@ class PropertyController {
     }
   }
 
-  // 添加记录
-  void setRecord() {
-    record.add(person);
+  // 下一岁
+  Age ageNext() {
+    person.change(PropertyKey.age, 1);
+    final age = person.getAttribute(PropertyKey.age);
+    return ages.get(age);
   }
 }

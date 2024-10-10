@@ -1,9 +1,12 @@
 import 'package:life_restart/core/property/person.dart';
 import 'package:life_restart/core/types.dart';
 
+import '../dict/event.dart';
+import '../dict/talent.dart';
+
 // 记录每一岁
 class PlayRecord {
-  List<Map<PropertyKey, int>> _list = [];
+  final List<AgeRecord> _list = [];
 
   static const List<PropertyKey> _propertyKeyList = [
     PropertyKey.age,
@@ -15,15 +18,23 @@ class PlayRecord {
   ];
 
   // 重置
-  void reset() => _list = [];
+  void reset() {
+    _list.clear();
+  }
 
   // 添加记录
-  void add(Person p) {
-    final Map<PropertyKey, int> map = {};
+  AgeRecord add({
+    required Person person,
+    List<Talent>? talent,
+    List<Event>? event,
+  }) {
+    final Map<PropertyKey, int> attributes = {};
     for (var key in _propertyKeyList) {
-      map[key] = p.getAttribute(key);
+      attributes[key] = person.getAttribute(key);
     }
-    _list.add(map);
+    final record = AgeRecord(talent: talent ?? [], event: event ?? [], attributes: attributes);
+    _list.add(record);
+    return record;
   }
 
   // 获取完整记录
@@ -31,4 +42,18 @@ class PlayRecord {
 
   // 获取最新记录
   Map<PropertyKey, int> get lastRecord => list.last;
+}
+
+class AgeRecord {
+  final List<Talent>? talent;
+  final List<Event>? event;
+  final Map<PropertyKey, int> attributes;
+
+  int get age => attributes[PropertyKey.age]!;
+
+  const AgeRecord({
+    required this.talent,
+    required this.event,
+    required this.attributes,
+  });
 }
