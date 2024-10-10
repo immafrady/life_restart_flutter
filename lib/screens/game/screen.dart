@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:life_restart/core/core.dart';
 import 'package:life_restart/core/dict/talent.dart';
 import 'package:life_restart/screens/game/game_controller_widget.dart';
-import 'package:life_restart/screens/game/player_attributes_widget.dart';
 import 'package:life_restart/stores/player.dart';
 import 'package:life_restart/widgets/my_app_bar/widget.dart';
+import 'package:life_restart/widgets/my_material_banner/widget.dart';
 import 'package:provider/provider.dart';
 
 import 'game_progression_widget.dart';
+import 'player_attributes_widget.dart';
 
 class GameScreen extends StatefulWidget {
   const GameScreen({super.key});
@@ -42,6 +43,7 @@ class _GameScreenState extends State<GameScreen> {
         title: "人生进行时",
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const PlayerAttributesWidget(),
           GameProgressionWidget(
@@ -52,8 +54,13 @@ class _GameScreenState extends State<GameScreen> {
             onSpeedChange: (speed) {
               setState(() {
                 _currentSpeed = speed;
+                MyMaterialBanner.of(context).showMessage(
+                  speed.message,
+                  type: AlertType.info,
+                );
               });
             },
+            onNext: () {},
           ),
         ],
       ),
