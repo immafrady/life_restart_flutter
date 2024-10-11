@@ -19,7 +19,7 @@ class _GameProgressionWidgetState extends State<GameProgressionWidget> {
   void _scrollToBottom() {
     _scrollController.animateTo(
       _scrollController.position.maxScrollExtent, // 滚动到底部
-      duration: const Duration(milliseconds: 200), // 动画时间
+      duration: const Duration(milliseconds: 50), // 动画时间
       curve: Curves.easeOut, // 动画效果
     );
   }

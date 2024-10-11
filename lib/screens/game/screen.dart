@@ -57,7 +57,9 @@ class _GameScreenState extends State<GameScreen> {
         if (core.propertyController.isEnd()) {
           _timer?.cancel();
         } else {
-          core.next();
+          setState(() {
+            core.next();
+          });
         }
       });
     }
