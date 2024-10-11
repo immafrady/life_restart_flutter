@@ -32,7 +32,7 @@ class PlayRecord {
     for (var key in _propertyKeyList) {
       attributes[key] = person.getAttribute(key);
     }
-    final record = AgeRecord(talent: talent, event: event, attributes: attributes);
+    final record = AgeRecord(talents: talent, events: event, attributes: attributes);
     _list.add(record);
     return record;
   }
@@ -45,15 +45,15 @@ class PlayRecord {
 }
 
 class AgeRecord {
-  final List<Talent>? talent;
-  final List<Event>? event;
+  final List<Talent> talents;
+  final List<Event> events;
   final Map<PropertyKey, int> attributes;
 
   int get age => attributes[PropertyKey.age]!;
 
   const AgeRecord({
-    required this.talent,
-    required this.event,
+    required this.talents,
+    required this.events,
     required this.attributes,
   });
 }

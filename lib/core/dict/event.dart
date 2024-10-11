@@ -5,7 +5,7 @@ import 'effect.dart';
 
 class Event {
   late final int id;
-  late final String event;
+  late final String description;
   late final String postEvent;
   late EffectMap effect;
   late final bool noRandom;
@@ -15,7 +15,7 @@ class Event {
 
   Event.fromJson(JSONMap json) {
     id = convertToInt(json['id']);
-    event = json['event'];
+    description = json['event']; // 取event字段的，转换一下
     noRandom = json['NoRandom'] == null ? false : json['NoRandom'] == 1;
     effect = EffectMap()..parse(json['effect']);
     postEvent = json['postEvent'] ?? '';

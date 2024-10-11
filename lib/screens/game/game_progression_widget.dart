@@ -32,9 +32,20 @@ class GameProgressionWidget extends StatelessWidget {
               controller: _scrollController,
               itemBuilder: (context, index) {
                 final record = list[index];
+                final leadingText = record.age >= 100 ? record.age.toString() : '${record.age}岁';
                 return Card.outlined(
                   child: ListTile(
-                    leading: Text(record.age.toString()),
+                    leading: CircleAvatar(
+                      child: Text(leadingText),
+                    ),
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: record.events
+                          .map(
+                            (event) => Text(event.description),
+                          )
+                          .toList(),
+                    ),
                   ),
                 );
               },
