@@ -41,11 +41,21 @@ class _GameProgressionWidgetState extends State<GameProgressionWidget> {
           elevation: 0.5,
           child: Consumer<CoreDelegate>(builder: (context, core, widget) {
             final list = core.propertyController.record.list;
+
             return ListView.builder(
               controller: _scrollController,
               itemBuilder: (context, index) {
                 final record = list[index];
                 final leadingText = record.age >= 100 ? record.age.toString() : '${record.age}岁';
+
+                // 处理天赋相关的渲染列表
+                final subtitleRenderList = <String>[];
+                if (index == 0 && this.widget.replaceList.isNotEmpty) {
+                  subtitleRenderList
+                      .addAll(this.widget.replaceList.map((pair) => '天赋【${pair.$1.name}】发动: 替换为天赋【${pair.$2.name}】'));
+                }
+                subtitleRenderList.addAll(record.talents.map((talent) => '天赋【${talent.name}】发动：${talent.description}'));
+
                 return Card.outlined(
                   child: ListTile(
                     leading: CircleAvatar(
@@ -59,6 +69,16 @@ class _GameProgressionWidgetState extends State<GameProgressionWidget> {
                           )
                           .toList(),
                     ),
+                    subtitle: subtitleRenderList.isNotEmpty
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: subtitleRenderList
+                                .map(
+                                  (text) => Text(text),
+                                )
+                                .toList(),
+                          )
+                        : null,
                   ),
                 );
               },

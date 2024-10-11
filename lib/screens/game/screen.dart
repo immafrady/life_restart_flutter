@@ -41,7 +41,7 @@ class _GameScreenState extends State<GameScreen> {
   PlaySpeed _currentSpeed = PlaySpeed.stop;
   Timer? _timer;
 
-  toggleSpeed(PlaySpeed speed) {
+  _toggleSpeed(PlaySpeed speed) {
     setState(() {
       _currentSpeed = speed;
       MyMaterialBanner.of(context).showMessage(
@@ -84,16 +84,7 @@ class _GameScreenState extends State<GameScreen> {
               ),
               GameControllerWidget(
                 currentSpeed: _currentSpeed,
-                onSpeedChange: (speed) {
-                  setState(() {
-                    _currentSpeed = speed;
-
-                    MyMaterialBanner.of(context).showMessage(
-                      speed.message,
-                      type: AlertType.info,
-                    );
-                  });
-                },
+                onSpeedChange: _toggleSpeed,
                 onNext: () {
                   setState(() {
                     Provider.of<CoreDelegate>(context, listen: false).next();
