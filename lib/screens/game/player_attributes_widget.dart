@@ -11,34 +11,27 @@ class PlayerAttributesWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<CoreDelegate>(builder: (context, core, widget) {
       final theme = Theme.of(context);
-      return Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: generateSpacedChildren(
-            spacer: const SizedBox(
-              width: 10,
-            ),
-            children: [
-              PropertyKey.charm,
-              PropertyKey.intelligence,
-              PropertyKey.strength,
-              PropertyKey.money,
-              PropertyKey.spirit,
-            ]
-                .map(
-                  (key) => Container(
-                    width: theme.textTheme.bodyLarge!.fontSize! * 4,
-                    decoration: BoxDecoration(
-                      border: const Border.fromBorderSide(BorderSide(
-                        color: Color(0xFFa7a7a7),
-                      )),
-                      borderRadius: BorderRadius.circular(4.0),
-                    ),
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: generateSpacedChildren(
+          spacer: const SizedBox(
+            width: 5,
+          ),
+          children: [
+            PropertyKey.charm,
+            PropertyKey.intelligence,
+            PropertyKey.strength,
+            PropertyKey.money,
+            PropertyKey.spirit,
+          ]
+              .map(
+                (key) => Card.outlined(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(12), // card的默认圆角
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Container(
+                          width: theme.textTheme.bodyLarge!.fontSize! * 4,
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                             color: theme.colorScheme.primary,
@@ -46,7 +39,7 @@ class PlayerAttributesWidget extends StatelessWidget {
                           child: Text(
                             key.desc,
                             style: theme.textTheme.bodyLarge?.copyWith(
-                              color: theme.colorScheme.inversePrimary,
+                              color: theme.colorScheme.onPrimary,
                             ),
                           ),
                         ),
@@ -59,9 +52,9 @@ class PlayerAttributesWidget extends StatelessWidget {
                       ],
                     ),
                   ),
-                )
-                .toList(),
-          ),
+                ),
+              )
+              .toList(),
         ),
       );
     });

@@ -23,25 +23,21 @@ class GameProgressionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 10.0,
-          horizontal: 20.0,
-        ),
-        child: Material(
+        padding: const EdgeInsets.symmetric(),
+        child: Card.filled(
           elevation: 0.5,
           child: Consumer<CoreDelegate>(builder: (context, core, widget) {
             final list = core.propertyController.record.list;
-            return ListView.separated(
+            return ListView.builder(
               controller: _scrollController,
               itemBuilder: (context, index) {
                 final record = list[index];
-                return Card(
+                return Card.outlined(
                   child: ListTile(
                     leading: Text(record.age.toString()),
                   ),
                 );
               },
-              separatorBuilder: (context, index) => const Divider(),
               itemCount: list.length,
             );
           }),

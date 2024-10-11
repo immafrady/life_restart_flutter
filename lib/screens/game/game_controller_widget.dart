@@ -37,7 +37,7 @@ class GameControllerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 30, top: 10, right: 20, left: 20),
+      padding: const EdgeInsets.only(bottom: 30),
       child: Consumer<CoreDelegate>(
         builder: (context, core, widget) {
           if (core.propertyController.isEnd()) {

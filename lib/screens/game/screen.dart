@@ -3,6 +3,7 @@ import 'package:life_restart/core/core.dart';
 import 'package:life_restart/core/dict/talent.dart';
 import 'package:life_restart/screens/game/game_controller_widget.dart';
 import 'package:life_restart/stores/player.dart';
+import 'package:life_restart/utils/generate_spaced_children.dart';
 import 'package:life_restart/widgets/my_app_bar/widget.dart';
 import 'package:life_restart/widgets/my_material_banner/widget.dart';
 import 'package:provider/provider.dart';
@@ -42,31 +43,39 @@ class _GameScreenState extends State<GameScreen> {
       appBar: const MyAppBar(
         title: "人生进行时",
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const PlayerAttributesWidget(),
-          GameProgressionWidget(
-            replaceList: _replaceList,
+      body: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: generateSpacedChildren(
+            spacer: const SizedBox(
+              height: 10,
+            ),
+            children: [
+              const PlayerAttributesWidget(),
+              GameProgressionWidget(
+                replaceList: _replaceList,
+              ),
+              GameControllerWidget(
+                currentSpeed: _currentSpeed,
+                onSpeedChange: (speed) {
+                  setState(() {
+                    _currentSpeed = speed;
+                    MyMaterialBanner.of(context).showMessage(
+                      speed.message,
+                      type: AlertType.info,
+                    );
+                  });
+                },
+                onNext: () {
+                  setState(() {
+                    Provider.of<CoreDelegate>(context, listen: false).next();
+                  });
+                },
+              ),
+            ],
           ),
-          GameControllerWidget(
-            currentSpeed: _currentSpeed,
-            onSpeedChange: (speed) {
-              setState(() {
-                _currentSpeed = speed;
-                MyMaterialBanner.of(context).showMessage(
-                  speed.message,
-                  type: AlertType.info,
-                );
-              });
-            },
-            onNext: () {
-              setState(() {
-                Provider.of<CoreDelegate>(context, listen: false).next();
-              });
-            },
-          ),
-        ],
+        ),
       ),
     );
   }
