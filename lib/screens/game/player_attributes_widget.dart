@@ -45,7 +45,9 @@ class PlayerAttributesWidget extends StatelessWidget {
                         ),
                         Center(
                           child: Text(
-                            core.propertyController.person.attributes[key]!.toString(),
+                            core.propertyController.record.list.isEmpty
+                                ? core.propertyController.person.attributes[key]!.toString()
+                                : core.propertyController.record.list.last.attributes[key]!.toString(),
                             style: theme.textTheme.bodyLarge,
                           ),
                         ),

@@ -7,6 +7,7 @@ import 'dict/talent.dart';
 import 'manager/event.dart';
 import 'manager/talent.dart';
 import 'property/property.dart';
+import 'property/record.dart';
 import 'sources.dart';
 import 'types.dart';
 
@@ -108,10 +109,22 @@ class CoreDelegate extends ChangeNotifier {
     final ageInfo = propertyController.ageNext();
     final talent = applyTalent(replaceTalentIds: ageInfo.talentIds);
     final event = applyEvent(events: ageInfo.events);
-    return propertyController.record.add(
+    return addRecord(
+      talent: talent,
+      event: event,
+    );
+  }
+
+  AgeRecord addRecord({
+    required List<Talent> talent,
+    required List<Event> event,
+  }) {
+    final record = propertyController.record.add(
       person: propertyController.person,
       talent: talent,
       event: event,
     );
+    notifyListeners();
+    return record;
   }
 }

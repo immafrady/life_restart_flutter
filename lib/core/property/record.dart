@@ -39,9 +39,6 @@ class PlayRecord {
 
   // 获取完整记录
   List<AgeRecord> get list => List.unmodifiable(_list);
-
-  // 获取最新记录
-  AgeRecord get lastRecord => list.last;
 }
 
 class AgeRecord {
