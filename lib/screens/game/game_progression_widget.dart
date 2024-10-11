@@ -3,20 +3,33 @@ import 'package:life_restart/core/core.dart';
 import 'package:life_restart/core/dict/talent.dart';
 import 'package:provider/provider.dart';
 
-class GameProgressionWidget extends StatelessWidget {
-  GameProgressionWidget({super.key, required this.replaceList});
+class GameProgressionWidget extends StatefulWidget {
+  const GameProgressionWidget({super.key, required this.replaceList});
 
-  List<(Talent, Talent)> replaceList;
+  final List<(Talent, Talent)> replaceList;
 
+  @override
+  State<GameProgressionWidget> createState() => _GameProgressionWidgetState();
+}
+
+class _GameProgressionWidgetState extends State<GameProgressionWidget> {
   final ScrollController _scrollController = ScrollController();
 
   // 手动滚动到底部
   void _scrollToBottom() {
     _scrollController.animateTo(
       _scrollController.position.maxScrollExtent, // 滚动到底部
-      duration: const Duration(milliseconds: 300), // 动画时间
+      duration: const Duration(milliseconds: 200), // 动画时间
       curve: Curves.easeOut, // 动画效果
     );
+  }
+
+  @override
+  void didUpdateWidget(covariant GameProgressionWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    Future.delayed(const Duration(milliseconds: 100), () {
+      _scrollToBottom();
+    });
   }
 
   @override

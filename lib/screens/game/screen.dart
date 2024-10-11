@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:life_restart/core/core.dart';
 import 'package:life_restart/core/dict/talent.dart';
@@ -28,6 +30,7 @@ class _GameScreenState extends State<GameScreen> {
       final player = Provider.of<PlayerStore>(context, listen: false);
       setState(() {
         _replaceList = core.start(attributes: player.pointRecord, talentIds: player.talentIds);
+        core.next();
       });
     });
   }
@@ -36,6 +39,29 @@ class _GameScreenState extends State<GameScreen> {
   List<(Talent, Talent)> _replaceList = [];
 
   PlaySpeed _currentSpeed = PlaySpeed.stop;
+  Timer? _timer;
+
+  toggleSpeed(PlaySpeed speed) {
+    setState(() {
+      _currentSpeed = speed;
+      MyMaterialBanner.of(context).showMessage(
+        speed.message,
+        type: AlertType.info,
+      );
+    });
+
+    _timer?.cancel();
+    if (speed.duration >= 0) {
+      _timer = Timer.periodic(Duration(milliseconds: speed.duration), (t) {
+        final core = Provider.of<CoreDelegate>(context, listen: false);
+        if (core.propertyController.isEnd()) {
+          _timer?.cancel();
+        } else {
+          core.next();
+        }
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +87,7 @@ class _GameScreenState extends State<GameScreen> {
                 onSpeedChange: (speed) {
                   setState(() {
                     _currentSpeed = speed;
+
                     MyMaterialBanner.of(context).showMessage(
                       speed.message,
                       type: AlertType.info,
