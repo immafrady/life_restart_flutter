@@ -52,10 +52,10 @@ class _TalentItemWidgetState extends State<TalentItemWidget> with SingleTickerPr
   }
 
   int get _animationDuration => switch (widget.grade) {
-        3 => 500,
-        2 => 1000,
-        1 => 1500,
-        _ => 2000,
+        3 => 1000,
+        2 => 1300,
+        1 => 1600,
+        _ => 1900,
       };
 
   ({Color bg, Color onBg}) get _colors {
@@ -81,46 +81,48 @@ class _TalentItemWidgetState extends State<TalentItemWidget> with SingleTickerPr
     final textTheme = Theme.of(context).textTheme;
     final (bg: bgColor, onBg: onBgColor) = _colors;
 
-    return Stack(
-      children: [
-        Card(
-          color: bgColor,
-          child: ListTile(
+    return Card.outlined(
+      clipBehavior: Clip.antiAlias,
+      elevation: 2,
+      color: bgColor,
+      child: Stack(
+        children: [
+          ListTile(
             dense: true,
             visualDensity: VisualDensity.compact,
             title: Text(
               widget.name,
-              style: textTheme.titleMedium?.copyWith(
+              style: textTheme.titleSmall?.copyWith(
                 color: onBgColor,
               ),
             ),
             subtitle: Text(
               widget.description,
-              style: textTheme.titleSmall?.copyWith(
+              style: textTheme.bodySmall?.copyWith(
                 color: onBgColor,
               ),
             ),
           ),
-        ),
-        if (widget.active)
-          Positioned.fill(
-            child: AnimatedBuilder(
-              animation: _controller,
-              builder: (context, child) => Opacity(
-                opacity: _controller.value,
-                child: Transform.translate(
-                  // 屏幕的宽度
-                  offset: Offset(_controller.value * MediaQuery.of(context).size.width * 0.8, 0),
-                  child: Container(
-                    color: Colors.black.withOpacity(math.sin(math.pi * _controller.value) * 0.2),
-                    width: double.infinity,
-                    height: double.infinity,
+          if (widget.active)
+            Positioned.fill(
+              child: AnimatedBuilder(
+                animation: _controller,
+                builder: (context, child) => Opacity(
+                  opacity: _controller.value,
+                  child: Transform.translate(
+                    // 屏幕的宽度
+                    offset: Offset(_controller.value * MediaQuery.of(context).size.width * 0.8, 0),
+                    child: Container(
+                      color: Colors.black.withOpacity(math.sin(math.pi * _controller.value) * 0.2),
+                      width: double.infinity,
+                      height: double.infinity,
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-      ],
+        ],
+      ),
     );
   }
 }
