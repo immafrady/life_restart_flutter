@@ -13,7 +13,7 @@ enum PropertyKey {
   talent(key: 'TLT', desc: '天赋', type: PropertyType.relation),
   event(key: 'EVT', desc: '事件', type: PropertyType.relation),
   random(key: 'RDM', desc: '更改随机属性', type: PropertyType.special),
-  ;
+  summary(key: 'SUM', desc: '总评', type: PropertyType.special);
 
   final String key;
   final String desc;
