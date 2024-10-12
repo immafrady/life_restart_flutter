@@ -81,7 +81,7 @@ class _TalentItemWidgetState extends State<TalentItemWidget> with SingleTickerPr
     final textTheme = Theme.of(context).textTheme;
     final (bg: bgColor, onBg: onBgColor) = _colors;
 
-    return Card.outlined(
+    return Card(
       clipBehavior: Clip.antiAlias,
       elevation: 2,
       color: bgColor,

@@ -14,23 +14,29 @@ class TalentListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        scrollDirection: Axis.vertical,
-        padding: const EdgeInsets.all(8),
-        itemCount: talentPool.length,
-        itemBuilder: (BuildContext context, int index) {
-          final talent = talentPool[index];
-          return GestureDetector(
-            onTap: () {
-              onSelect(talent.id);
-            },
-            child: TalentItemWidget(
-              name: talent.name,
-              description: talent.description,
-              grade: talent.grade,
-              active: selectedIds.contains(talent.id),
-            ),
-          );
-        });
+    return Card.filled(
+      clipBehavior: Clip.antiAlias,
+      elevation: 0,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView.builder(
+            scrollDirection: Axis.vertical,
+            itemCount: talentPool.length,
+            itemBuilder: (BuildContext context, int index) {
+              final talent = talentPool[index];
+              return GestureDetector(
+                onTap: () {
+                  onSelect(talent.id);
+                },
+                child: TalentItemWidget(
+                  name: talent.name,
+                  description: talent.description,
+                  grade: talent.grade,
+                  active: selectedIds.contains(talent.id),
+                ),
+              );
+            }),
+      ),
+    );
   }
 }
