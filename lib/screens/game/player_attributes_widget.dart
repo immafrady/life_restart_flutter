@@ -25,33 +25,34 @@ class PlayerAttributesWidget extends StatelessWidget {
             PropertyKey.spirit,
           ]
               .map(
-                (key) => Card.outlined(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(12), // card的默认圆角
-                    child: Column(
-                      children: [
-                        Container(
-                          width: theme.textTheme.bodyLarge!.fontSize! * 4,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: theme.colorScheme.primary,
-                          ),
-                          child: Text(
-                            key.desc,
-                            style: theme.textTheme.bodyLarge?.copyWith(
-                              color: theme.colorScheme.onPrimary,
+                (key) => Expanded(
+                  child: Card.outlined(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12), // card的默认圆角
+                      child: Column(
+                        children: [
+                          Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: theme.colorScheme.primary,
+                            ),
+                            child: Text(
+                              key.desc,
+                              style: theme.textTheme.bodyLarge?.copyWith(
+                                color: theme.colorScheme.onPrimary,
+                              ),
                             ),
                           ),
-                        ),
-                        Center(
-                          child: Text(
-                            core.propertyController.record.list.isEmpty
-                                ? core.propertyController.person.attributes[key]!.toString()
-                                : core.propertyController.record.list.last.attributes[key]!.toString(),
-                            style: theme.textTheme.bodyLarge,
+                          Center(
+                            child: Text(
+                              core.propertyController.record.list.isEmpty
+                                  ? core.propertyController.person.attributes[key]!.toString()
+                                  : core.propertyController.record.list.last.attributes[key]!.toString(),
+                              style: theme.textTheme.bodyLarge,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
