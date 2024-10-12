@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:life_restart/core/core.dart';
+import 'package:life_restart/screens/result/screen.dart';
 import 'package:life_restart/utils/generate_spaced_children.dart';
 import 'package:provider/provider.dart';
 
@@ -44,9 +45,9 @@ class GameControllerWidget extends StatelessWidget {
             return Center(
               child: ElevatedButton(
                 onPressed: () {
-                  // Navigator.of(context).push(MaterialPageRoute(
-                  //   builder: (context) => ,
-                  // ));
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const ResultScreen(),
+                  ));
                 },
                 child: const Text('人生总结'),
               ),
