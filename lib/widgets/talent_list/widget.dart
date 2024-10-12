@@ -4,11 +4,7 @@ import 'package:life_restart/widgets/talent_list/talent_item_widget.dart';
 
 class TalentListWidget extends StatelessWidget {
   const TalentListWidget(
-      {super.key,
-      required this.talentPool,
-      required this.selectedIds,
-      required this.onSelect,
-      this.disabled = false});
+      {super.key, required this.talentPool, required this.selectedIds, required this.onSelect, this.disabled = false});
 
   final List<Talent> talentPool; // 天赋池
   final Set<int> selectedIds; // 被选中的id
@@ -18,11 +14,9 @@ class TalentListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
+    return ListView.builder(
         scrollDirection: Axis.vertical,
         padding: const EdgeInsets.all(8),
-        separatorBuilder: (BuildContext context, int index) =>
-            const SizedBox(height: 10),
         itemCount: talentPool.length,
         itemBuilder: (BuildContext context, int index) {
           final talent = talentPool[index];

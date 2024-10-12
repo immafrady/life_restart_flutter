@@ -58,48 +58,47 @@ class _TalentItemWidgetState extends State<TalentItemWidget> with SingleTickerPr
         _ => 2000,
       };
 
-  ColorRecord get _lightBackground => switch (widget.grade) {
-        3 => (normal: const Color(0xffffa07a), active: const Color(0xffff7f4d)),
-        2 => (normal: const Color(0xffe2a7ff), active: const Color(0xffb362e7)),
-        1 => (normal: const Color(0xff7ea5ec), active: const Color(0xff407dec)),
-        _ => (normal: const Color(0xffededed), active: const Color(0xff444444)),
-      };
+  ({Color bg, Color onBg}) get _colors {
+    final colorScheme = Theme.of(context).colorScheme;
 
-  ColorRecord get _darkBackground => switch (widget.grade) {
-        3 => (normal: const Color(0xffffa07a), active: const Color(0xfff1bfac)),
-        2 => (normal: const Color(0xffe2a7ff), active: const Color(0xffe7beff)),
-        1 => (normal: const Color(0xff6495ed), active: const Color(0xff87cefa)),
-        _ => (normal: const Color(0xff464646), active: const Color(0xffc0c0c0)),
-      };
+    return widget.active
+        ? switch (widget.grade) {
+            3 => (bg: colorScheme.tertiaryContainer, onBg: colorScheme.onTertiaryContainer),
+            2 => (bg: colorScheme.primaryContainer, onBg: colorScheme.onPrimaryContainer),
+            1 => (bg: colorScheme.secondaryContainer, onBg: colorScheme.onSecondaryContainer),
+            _ => (bg: colorScheme.surfaceContainer, onBg: colorScheme.onSecondaryContainer)
+          }
+        : switch (widget.grade) {
+            3 => (bg: colorScheme.tertiary, onBg: colorScheme.onTertiary),
+            2 => (bg: colorScheme.primary, onBg: colorScheme.onPrimary),
+            1 => (bg: colorScheme.secondary, onBg: colorScheme.onSecondary),
+            _ => (bg: colorScheme.surface, onBg: colorScheme.onSurface)
+          };
+  }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
-    final color = isDark ? _darkBackground : _lightBackground;
-    final textColor = isDark ? const Color(0xffeeeeee) : const Color(0xff666666);
-    final textActiveColor = isDark ? const Color(0xff3b3b3b) : const Color(0xffffffff);
+    final textTheme = Theme.of(context).textTheme;
+    final (bg: bgColor, onBg: onBgColor) = _colors;
+
     return Stack(
       children: [
-        Container(
-          height: 50,
-          decoration: BoxDecoration(
-            color: widget.active ? color.active : color.normal,
-            border: Border.all(color: theme.colorScheme.primary, width: 1),
-            boxShadow: [
-              if (widget.active)
-                const BoxShadow(
-                  color: Colors.grey,
-                  blurRadius: 10,
-                  spreadRadius: 0,
-                ),
-            ],
-          ),
-          child: Center(
-            child: Text(
-              '${widget.name} (${widget.description})',
-              style:
-                  Theme.of(context).textTheme.titleMedium?.copyWith(color: widget.active ? textActiveColor : textColor),
+        Card(
+          color: bgColor,
+          child: ListTile(
+            dense: true,
+            visualDensity: VisualDensity.compact,
+            title: Text(
+              widget.name,
+              style: textTheme.titleMedium?.copyWith(
+                color: onBgColor,
+              ),
+            ),
+            subtitle: Text(
+              widget.description,
+              style: textTheme.titleSmall?.copyWith(
+                color: onBgColor,
+              ),
             ),
           ),
         ),
