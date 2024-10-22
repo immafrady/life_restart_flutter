@@ -3,7 +3,7 @@ typedef JSONMap = Map<String, dynamic>;
 
 // 属性枚举
 enum PropertyKey {
-  age(key: 'AGE', desc: '年龄', type: PropertyType.attribute),
+  age(key: 'AGE', desc: '享年', type: PropertyType.attribute),
   charm(key: 'CHR', desc: '颜值', type: PropertyType.attribute),
   intelligence(key: 'INT', desc: '智力', type: PropertyType.attribute),
   strength(key: 'STR', desc: '体质', type: PropertyType.attribute),
