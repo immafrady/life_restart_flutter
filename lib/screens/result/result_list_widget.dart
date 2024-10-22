@@ -106,8 +106,8 @@ class _InfoCard extends StatelessWidget {
                     child: Text(score, style: textStyle),
                   ),
                   Container(
-                    alignment: Alignment.centerRight,
-                    width: textTheme.fontSize! * 4,
+                    alignment: Alignment.center,
+                    width: textTheme.fontSize! * 5,
                     child: Text(judge, style: textStyle),
                   ),
                 ],
