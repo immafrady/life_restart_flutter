@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:life_restart/core/core.dart';
 import 'package:life_restart/screens/result/result_list_widget.dart';
+import 'package:life_restart/screens/talent_select/screen.dart';
 import 'package:life_restart/stores/player.dart';
 import 'package:life_restart/widgets/my_app_bar/widget.dart';
+import 'package:life_restart/widgets/my_material_banner/widget.dart';
 import 'package:life_restart/widgets/talent_list/widget.dart';
 import 'package:provider/provider.dart';
 
@@ -53,12 +55,41 @@ class _ResultScreenState extends State<ResultScreen> {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
-              child: Center(
-                child: ElevatedButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(Icons.redo),
-                  label: const Text("再次重开"),
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.of(context).popUntil((route) => route.isFirst);
+                    },
+                    icon: const Icon(Icons.home),
+                    label: const Text("回到首页"),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      if (_selectedIds.isEmpty) {
+                        MyMaterialBanner.of(context).showMessage(
+                          '请至少选择一个天赋',
+                          type: AlertType.warning,
+                        );
+                      } else {
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (context) => TalentSelectScreen.restartNormalMode(
+                              selectedId: _selectedIds.first,
+                            ),
+                          ),
+                          (Route<dynamic> route) => route.isFirst,
+                        );
+                      }
+                    },
+                    icon: const Icon(Icons.redo),
+                    label: const Text("再次重开"),
+                  ),
+                ],
               ),
             ),
           ],

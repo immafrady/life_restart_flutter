@@ -26,6 +26,14 @@ class TalentSelectScreen extends StatefulWidget {
     fetchTalents = (CoreDelegate core) => core.talentManager.pick10RandomTalents(null);
   }
 
+  // 选择了一个重开的模式
+  TalentSelectScreen.restartNormalMode({super.key, int selectedId = 0})
+      : max = 3,
+        mode = Mode.normalMode,
+        totalPoint = 20 {
+    fetchTalents = (CoreDelegate core) => core.talentManager.pick10RandomTalents(selectedId);
+  }
+
   TalentSelectScreen.viewMode({super.key})
       : max = -1,
         mode = Mode.viewMode,
