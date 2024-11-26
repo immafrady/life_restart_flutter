@@ -1,6 +1,6 @@
 # life_restart
 
-人生重启模拟器的flutter版
+人生重启模拟器的flutter版（完成）
 
 重写自 https://github.com/admin1949/remake
 
