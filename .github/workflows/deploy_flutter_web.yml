@@ -17,8 +17,6 @@ jobs:
     # 安装 Flutter 环境
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
-      with:
-        flutter-version: "stable"
 
     # 获取依赖
     - name: Install dependencies
