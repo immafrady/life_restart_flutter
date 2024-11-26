@@ -2,17 +2,12 @@
 
 人生重启模拟器的flutter版（完成）
 
-重写自 https://github.com/admin1949/remake
+试玩链接:
 
-## Getting Started
+- https://immafrady.github.io/life_restart_flutter/
 
-This project is a starting point for a Flutter application.
+参考仓库:
 
-A few resources to get you started if this is your first Flutter project:
+- https://github.com/admin1949/remake
+- https://github.com/VickScarlet/lifeRestart
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
