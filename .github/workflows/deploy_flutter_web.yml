@@ -24,7 +24,7 @@ jobs:
 
     # 构建 Web 项目
     - name: Build Flutter Web
-      run: flutter build web --release
+      run: flutter build web --release --base-href="/life_restart_flutter/"
 
     # 部署到 GitHub Pages
     - name: Deploy to GitHub Pages
